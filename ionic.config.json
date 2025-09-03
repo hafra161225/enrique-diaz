@@ -1,0 +1,7 @@
+{
+  "name": "Tichapane",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
