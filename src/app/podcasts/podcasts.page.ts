@@ -315,10 +315,12 @@ export class PodcastsPage implements AfterViewInit {
 
   onSignup() {
     // handle signup logic
+    this.router.navigate(['/signup']);
   }
 
   onLogin() {
     // handle login logic
+    this.router.navigate(['/login']);
   }
 
   getLangShort(lang: string): string {
