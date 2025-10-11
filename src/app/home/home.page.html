@@ -1,20 +1,410 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+<ion-menu contentId="main-content" side="end">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>
+        <div class="brand">Coaching<span class="dot">.</span></div>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-menu-toggle auto-hide="true">
+        <ion-item button>About Me</ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle auto-hide="true">
+        <ion-item button >Podcasts</ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle auto-hide="true">
+        <ion-item button >Services</ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle auto-hide="true">
+        <ion-item button >Reservations</ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle auto-hide="true">
+        <ion-item button >Contact</ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<!-- lock@it007 -->
+<ion-header [translucent]="true" class="background">
+  <ion-toolbar class="background">
+    <div class="container header-inner">
+      <div class="brand">
+        <ion-img src="assets/main-logo-white.png" class="brand-logo" alt="Logo"></ion-img>
+      </div>
+      <nav class="nav">
+        <a (click)="gotoAboutMe()" tappable>{{ translationService.translate('ABOUT_ME') }}</a>
+        <a (click)="gotoPodcasts()" tappable>{{ translationService.translate('PODCASTS') }}</a>
+        <a (click)="gotoWorkWithMe()" tappable>{{ translationService.translate('SERVICES') }}</a>
+        <a (click)="gotoReservations()" tappable>{{ translationService.translate('RESERVATIONS') }}</a>
+        <a (click)="gotoContact()" tappable>{{ translationService.translate('CONTACT') }}</a>
+      </nav>
+      <div class="nav-actions">
+        <ion-button fill="outline" shape="round" expand="block" size="small" (click)="onSignup()">
+          {{ translationService.translate('REGISTER') }}
+        </ion-button>
+        <ion-button fill="outline" shape="round" expand="block" size="small" (click)="onLogin()">
+          {{ translationService.translate('LOGIN') }}
+        </ion-button>
+        <div class="lang-select-wrapper">
+          <ion-icon name="globe-outline" class="lang-icon"></ion-icon>
+          <ion-select
+            interface="action-sheet"
+            mode="ios"
+            class="lang-select"
+            [value]="selectedLang"
+            [selectedText]="getLangShort(selectedLang)"
+            (ionChange)="onLanguageChange($event)"
+          >
+            <ion-select-option value="en">
+              English
+            </ion-select-option>
+            <ion-select-option value="sv">
+              Svenska
+            </ion-select-option>
+            <ion-select-option value="es">
+              Español
+            </ion-select-option>
+          </ion-select>
+        </div>
+      </div>
+      <!-- Hero -->
+      <div class="cta floating-cta" data-anim="fade-in">
+        <a class="pill">{{ translationService.translate('BOOK_APPOINTMENT') }}<span class="pill-dot"></span></a>
+      </div>
+      <ion-buttons slot="end" class="menu-btn">
+        <ion-button>
+          <div class="lang-select-wrapper-mobile">
+            <ion-icon name="globe-outline" class="lang-icon"></ion-icon>
+            <div class="lang-select-container">
+              <ion-select
+                interface="action-sheet"
+                mode="ios"
+                class="lang-select"
+                [value]="selectedLang"
+                [selectedText]="getLangShort(selectedLang)"
+                (ionChange)="onLanguageChange($event)"
+              >
+                <ion-select-option value="en">
+                  English
+                </ion-select-option>
+                <ion-select-option value="sv">
+                  Svenska
+                </ion-select-option>
+                <ion-select-option value="es">
+                  Español
+                </ion-select-option>
+              </ion-select>
+            </div>
+          </div>
+        </ion-button>
+        <ion-button >
+          <div class="flex" >
+            Login
+          </div>
+        </ion-button>
+      </ion-buttons>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="landing ion-padding" id="main-content">
+  <!-- Background Decorations -->
+  <div class="bg-gradient"></div>
+  <div class="orb orb-1" data-anim="orb"></div>
+  <div class="orb orb-2" data-anim="orb"></div>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <section class="hero hero-super container">
+    <div class="hero-grid">
+      <div class="hero-media" data-anim="fade-in" data-delay="0.05">
+        <div class="portrait" data-anim="float">
+          <img src="assets/enrique-life-coach.png" alt="Coach portrait" class="coach-photo" />
+        </div>
+      </div>
+      <div class="hero-copy">
+        <h1 class="headline-xl">{{ translationService.translate('PERSONAL_COACHING') }}</h1>
+        <p class="subhead">{{ translationService.translate('SUBHEAD') }}</p>
+        <form class="signup" data-anim="reveal-up" data-delay="0.2">
+          <button class="btn">{{ translationService.translate('BOOK_APPOINTMENT') }}&nbsp;&nbsp;<ion-icon name="chevron-forward-circle-outline" size="medium"></ion-icon></button>
+        </form>
+        <div class="signup-message" [class.error]="signupError" *ngIf="signupMessage">
+          {{ signupMessage }}
+        </div>
+      </div>
+    </div>
+    <a class="scroll-down" aria-label="Scroll down" data-anim="fade-in" data-delay="0.3">
+      <ion-icon name="chevron-down-outline" color="black"></ion-icon>
+    </a>
+  </section>
+
+    <!-- Manifesto -->
+  <section id="section" class="manifesto container">
+    <div class="services-header">
+      <h2 class="section-title">{{ translationService.translate('OUR_SERVICES') }}</h2>
+      <a class="see-all-link" (click)="gotoWorkWithMe()">{{ translationService.translate('SEE_ALL') }}</a>
+    </div>
+    <div class="grid-service">
+      <div class="card-service" data-anim="stagger-card" >
+        <h3>{{ translationService.translate('DISCOVERY_CALL') }}</h3>
+        <p>{{ translationService.translate('DISCOVERY_CALL_DESC') }}</p>
+        <div class="card-service-meta">
+          <span class="price">$0</span>
+          <span class="minutes">15 min</span>
+        </div>
+        <ul class="card-service-actions">
+          <li *ngFor="let item of translationService.translateArray('CARD_SERVICE_DISCOVERY')">{{ item }}</li>
+        </ul>
+        <ion-button expand="block" class="book-call">{{ translationService.translate('CONFIRM_BOOKING') }}</ion-button>
+      </div>
+      <div class="card-service" data-anim="stagger-card" >
+        <h3>{{ translationService.translate('SINGLE_COACHING_SESSION') }}</h3>
+        <p>{{ translationService.translate('SINGLE_COACHING_SESSION_DESC') }}</p>
+        <div class="card-service-meta">
+          <span class="price">$50</span>
+          <span class="minutes">30 min</span>
+        </div>
+        <ul class="card-service-actions">
+          <li *ngFor="let item of translationService.translateArray('CARD_SERVICE_SINGLE_SESSION')">{{ item }}</li>
+        </ul>
+        <ion-button expand="block" class="book-call">{{ translationService.translate('BOOK') }}</ion-button>
+      </div>
+      <div class="card-service" data-anim="stagger-card" >
+        <h3>{{ translationService.translate('INTENSIVE_BREAKTHROUGH_SESSION') }}</h3>
+        <p>{{ translationService.translate('INTENSIVE_BREAKTHROUGH_SESSION_DESC') }}</p>
+        <div class="card-service-meta">
+          <span class="price">$100</span>
+          <span class="minutes">60 min</span>
+        </div>
+        <ul class="card-service-actions">
+          <li *ngFor="let item of translationService.translateArray('CARD_SERVICE_INTENSIVE_BREAKTHROUGH')">{{ item }}</li>
+        </ul>
+        <ion-button expand="block" class="book-call">{{ translationService.translate('BOOK') }}</ion-button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Manifesto -->
+  <section id="manifesto" class="manifesto container">
+    <h2 class="section-title" style="text-align: center;">{{ translationService.translate('I_WILL_HELP_YOU_WITH_THE_FOLLOWING') }}</h2><br/>
+    <div class="grid">
+      <div class="card" data-anim="stagger-card" >
+        <h3>{{ translationService.translate('RESPONSIBILITY_AND_SUPPORT') }}</h3>
+        <p>{{ translationService.translate('ACCOUNTABILITY_SUPPORT_DESC') }}</p>
+        <h2><ion-icon name="people-outline" size="large"></ion-icon></h2>
+      </div>
+      <div class="card" data-anim="stagger-card" >
+        <h3>{{ translationService.translate('IMPROVED_PERFORMANCE_PRODUCTIVITY') }}</h3>
+        <p>{{ translationService.translate('IMPROVED_PERFORMANCE_PRODUCTIVITY_DESC') }}</p>
+        <h2><ion-icon name="trending-up-outline" size="large"></ion-icon></h2>
+      </div>
+      <div class="card" data-anim="stagger-card" >
+        <h3>{{ translationService.translate('CONFIRM_AND_PAY') }}</h3>
+        <p>{{ translationService.translate('CONFIRM_AND_PAY_DESC') }}</p>
+        <h2><ion-icon name="heart-outline" size="large"></ion-icon></h2>
+      </div>
+      <div class="card" data-anim="stagger-card" >
+        <h3>{{ translationService.translate('PREPARE_AND_MEET') }}</h3>
+        <p>{{ translationService.translate('PREPARE_AND_MEET_DESC') }}</p>
+        <h2><ion-icon name="pulse-outline" size="large"></ion-icon></h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <!-- <section id="services" class="services container">
+    <h2 class="section-title" data-anim="words" style="text-align: center;">Our Services</h2>
+    <div class="services-grid">
+      <div class="service-card" data-anim="stagger-card">
+        <div class="service-bg service-1"></div>
+        <div class="service-overlay">
+          <h3>1:1 Coaching</h3>
+        </div>
+      </div>
+      <div class="service-card" data-anim="stagger-card">
+        <div class="service-bg service-2"></div>
+        <div class="service-overlay">
+          <h3>Team Coaching</h3>
+        </div>
+      </div>
+      <div class="service-card" data-anim="stagger-card">
+        <div class="service-bg service-3"></div>
+        <div class="service-overlay">
+          <h3>Leadership Development</h3>
+        </div>
+      </div>
+      <div class="service-card" data-anim="stagger-card">
+        <div class="service-bg service-4"></div>
+        <div class="service-overlay">
+          <h3>Performance Coaching</h3>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- Benefits -->
+  <!-- <section id="benefits" class="benefits container">
+    <h2 class="section-title" data-anim="words" style="text-align: center;">Benefits of Personal Coaching</h2>
+    <div class="benefits-grid">
+      <blockquote class="benefit-quote" data-anim="stagger-card">
+        <p>"Personal coaching accelerates your growth by providing focused, one-on-one attention tailored to your unique goals and challenges."</p>
+      </blockquote>
+      <button class="btn">Book Time</button>
+    </div>
+  </section> -->
+
+  <!-- About Me -->
+  <!-- <section id="about" class="about container">
+    <h2 class="section-title" data-anim="words" style="text-align: center;">About Me</h2>
+    <div class="about-content" data-anim="reveal-up">
+      <p>I'm a certified executive coach with over 10 years of experience helping leaders and teams unlock their potential. My approach combines proven methodologies with personalized strategies to drive meaningful transformation and sustainable growth.</p>
+    </div>
+  </section> -->
+
+
+  <!-- Testimonials -->
+  <section id="testimonials" class="testimonials container">
+    <h2 class="section-title" style="text-align: center;">{{ translationService.translate('WHAT_CLIENTS_SAY') }}</h2>
+    <br>
+    <div class="testimonial-slider">
+      <div class="testimonial-track">
+        <div class="testimonial-slide active">
+          <div class="testimonial-content">
+            <div class="testimonial-avatar">
+              <ion-avatar>
+                <ion-img src="assets/marketer.avif" alt="Alexandra Rivera"></ion-img>
+              </ion-avatar>
+            </div>
+            <div class="testimonial-rating">
+              ★★★★★
+            </div>
+            <p>"{{ translationService.translate('TESTIMONIAL_ONE') }}"</p>
+            <div class="testimonial-author">
+              <strong>Alexandra Rivera</strong>
+              <span>{{ translationService.translate('TESTIMONIAL_BUSINESS_ONE') }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-slide">
+          <div class="testimonial-content">
+            <div class="testimonial-avatar">
+              <ion-avatar>
+                <ion-img src="assets/entreprenuer.avif" alt="Marcus Johnson"></ion-img>
+              </ion-avatar>
+            </div>
+            <div class="testimonial-rating">
+              ★★★★★
+            </div>
+            <p>"{{ translationService.translate('TESTIMONIAL_TWO') }}"</p>
+            <div class="testimonial-author">
+              <strong>Marcus Johnson</strong>
+              <span>{{ translationService.translate('TESTIMONIAL_BUSINESS_TWO') }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-slide">
+          <div class="testimonial-content">
+            <div class="testimonial-avatar">
+              <ion-avatar>
+                <ion-img src="assets/healthcare.avif" alt="Priya Patel"></ion-img>
+              </ion-avatar>
+            </div>
+            <div class="testimonial-rating">
+              ★★★★★
+            </div>
+            <p>"{{ translationService.translate('TESTIMONIAL_THREE') }}"</p>
+            <div class="testimonial-author">
+              <strong>Priya Patel</strong>
+              <span>{{ translationService.translate('TESTIMONIAL_BUSINESS_THREE') }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-slide">
+          <div class="testimonial-content">
+            <div class="testimonial-avatar">
+              <ion-avatar>
+                <ion-img src="assets/developer.avif" alt="David Chen"></ion-img>
+              </ion-avatar>
+            </div>
+            <div class="testimonial-rating">
+              ★★★★☆
+            </div>
+            <p>"{{ translationService.translate('TESTIMONIAL_FOUR') }}"</p>
+            <div class="testimonial-author">
+              <strong>David Chen</strong>
+              <span>{{ translationService.translate('TESTIMONIAL_BUSINESS_FOUR') }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slider-controls">
+        <button class="slider-btn prev" (click)="prevTestimonial()">‹</button>
+        <button class="slider-btn next" (click)="nextTestimonial()">›</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section id="newsletter" class="newsletter container">
+    <h2 class="section-title" style="text-align: center;">{{ translationService.translate('STAY_UPDATED') }}</h2>
+    <div class="newsletter-content">
+      <p>{{ translationService.translate('GET_EXCLUSIVE_CONTENT') }}</p>
+      <form class="newsletter-form" (submit)="onNewsletterSubmit($event)">
+        <input type="email" name="email" placeholder="{{ translationService.translate('YOUR_EMAIL') }}" required>
+        <button type="submit" class="btn">{{ translationService.translate('SUBSCRIBE') }}</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="brand">
+            <ion-img src="assets/main-logo-white.png" class="brand-logo" alt="Logo"></ion-img>
+          </div>
+          <p>{{ translationService.translate('MOTO') }}</p>
+          <div class="social-links">
+            <a href="#" aria-label="LinkedIn"><ion-icon name="logo-linkedin"></ion-icon></a>
+            <a href="#" aria-label="Twitter"><ion-icon name="logo-twitter"></ion-icon></a>
+            <a href="#" aria-label="Instagram"><ion-icon name="logo-instagram"></ion-icon></a>
+            <a href="#" aria-label="Facebook"><ion-icon name="logo-facebook"></ion-icon></a>
+          </div>
+        </div>
+        
+        <div class="footer-section">
+          <h4>{{ translationService.translate('CONTACT') }}</h4>
+          <div class="contact-info">
+            <p><ion-icon name="mail-outline"></ion-icon> contact@enriquediaz.com</p>
+            <p><ion-icon name="call-outline"></ion-icon>(555) 123-4567</p>
+            <p><ion-icon name="location-outline"></ion-icon> San Francisco, CA</p>
+          </div>
+        </div>
+        
+        <div class="footer-section newsletter-footer">
+          <h4>{{ translationService.translate('NEWSLETTER') }}</h4>
+          <p>{{ translationService.translate('STAY_UPDATED_INFO') }}</p>
+          <form class="footer-newsletter" (submit)="onNewsletterSubmit($event)">
+            <input type="email" name="email" placeholder="{{ translationService.translate('YOUR_EMAIL') }}" required>
+            <button type="submit">{{ translationService.translate('SUBSCRIBE') }}</button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="legal">
+          <div>© 2025 Enrique Diaz. All rights reserved.</div>
+          <div style="margin-top: 5px;"><a >{{ translationService.translate('PRIVACY_POLICY') }}</a> &nbsp;| &nbsp;<a >{{ translationService.translate('TERMS_OF_SERVICE') }}</a></div>
+        </div>
+        <div class="footer-links">
+          <a >{{ translationService.translate('ABOUT_ME') }}</a>
+          <a >{{ translationService.translate('SERVICES') }}</a>
+          <a >{{ translationService.translate('WHAT_CLIENTS_SAY') }}</a>
+          <a >{{ translationService.translate('CONTACT') }}</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
 </ion-content>

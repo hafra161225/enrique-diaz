@@ -1,0 +1,33 @@
+.mobile-tabbar {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .mobile-tabbar {
+    display: flex;
+  }
+}
+@media (min-width: 768px) {
+  .desktop-tabbar {
+    display: none;
+  }
+}
+
+ion-tabs{
+    background: transparent;
+    --background: transparent;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: none;
+  border-bottom: none;
+  border-radius: 20px;
+}
+
+ion-tab-bar{
+    background: transparent;
+    --background: transparent;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: none;
+  border-bottom: none;
+}

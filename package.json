@@ -1,5 +1,5 @@
 {
-  "name": "Tichapane",
+  "name": "Enrique",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
@@ -27,6 +27,9 @@
     "@capacitor/keyboard": "7.0.2",
     "@capacitor/status-bar": "7.0.2",
     "@ionic/angular": "^8.0.0",
+    "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/http-loader": "^6.0.0",
+    "gsap": "^3.13.0",
     "ionicons": "^7.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
