@@ -62,8 +62,8 @@
       </ion-button>
     </form>
 
-    <div class="extra-links">
-      <a routerLink="/signup">{{ translationService.translate('ALREADY_HAVE_AN_ACCOUNT') }}</a>
+    <div class="extra-links" (click)="goToLogin()">
+      <a routerLink="/login" tappable>{{ translationService.translate('ALREADY_HAVE_AN_ACCOUNT') }}</a>
     </div>
   </div>
 

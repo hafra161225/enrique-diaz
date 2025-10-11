@@ -128,6 +128,10 @@ export class SignupPage implements OnInit {
     this.router.navigate(['/tabs/home']);
   }
 
+  goToLogin(){
+    this.router.navigate(['/login']);
+  }
+
   // enable back space
   onIonInput(controlName: string, ev: any) {
     const value = ev.detail?.value ?? '';
