@@ -268,11 +268,24 @@ export class PodcastsPage implements AfterViewInit {
   }
 
   // format the date
-  formatDate(timestamp: number | string): string {
-    const date = new Date(typeof timestamp === 'string' ? Number(timestamp) : timestamp);
+  formatDate(timestamp: number | string | null | undefined): string {
+    if (!timestamp) return 'Unknown date';
+
+    let num = Number(timestamp);
+
+    // Check if it's a valid number
+    if (!isNaN(num)) {
+      // Convert seconds to milliseconds if necessary
+      if (num < 1e12) num *= 1000;
+      return new Date(num).toLocaleString();
+    }
+
+    // If it's not a number, try to parse as ISO string
+    const date = new Date(timestamp);
+    if (isNaN(date.getTime())) return 'Invalid date';
+
     return date.toLocaleString();
   }
-
 
   playEpisode(episode: PodcastEpisode) {
     // 🎧 You can integrate your audio player logic here

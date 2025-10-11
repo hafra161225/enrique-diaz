@@ -153,6 +153,19 @@
     "PODCAST_PLAY_EPISODE": "Play Episode",
     "PODCAST_LATEST_EPISODE": "Latest Episode",
     "PODCAST_SERIES": "Podcast Series",
-    "PODCAST_SERIES_DESC" : "Each series offers the latest 3 episodes with automatic updates."
+    "PODCAST_SERIES_DESC" : "Each series offers the latest 3 episodes with automatic updates.",
+    "LOGIN_BUTTON": "Login",
+    "LOGGING_IN_BUTTON": "Logging in...",
+    "LOGIN_TO_CONTINUE": "Login to Continue",
+    "FORGOT_PASSWORD" : "Forgot Password?",
+    "RESET_PASSWORD": "Reset Password",
+    "PASSWORD": "Password",
+    "ALREADY_HAVE_AN_ACCOUNT" : "Already have an account? Login",
+    "DONT_HAVE_AN_ACCOUNT": "Don't have an account? Sign up",
+    "SIGNUP_BUTTON": "Sign Up",
+    "SIGNING_UP_BUTTON": "Signing up...",
+    "SIGNUP_TO_CONTINUE": "Sign Up to Continue",
+    "MESSAGE_LOGIN_SUCCESS" : "Login successful!",
+    "MESSAGE_SIGNUP_SUCCESS" : "Signup successful! You can now log in."
 
 }

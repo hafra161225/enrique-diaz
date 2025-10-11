@@ -1,0 +1,85 @@
+<ion-content [fullscreen]="true" class="landing ion-padding" id="main-content">
+  <!-- Background Decorations -->
+  <div class="bg-gradient"></div>
+  <div class="orb orb-1" data-anim="orb"></div>
+  <div class="orb orb-2" data-anim="orb"></div>
+
+  <div class="login-wrapper">
+        
+    <!-- Back Button -->
+    <ion-button fill="clear" size="small" class="back-btn" (click)="goBack()">
+      <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+      Back
+    </ion-button>
+
+    <!-- 🪪 Logo Section -->
+    <div class="logo-wrapper">
+      <img src="assets/main-logo-white.png" alt="App Logo" />
+    </div>
+    <p class="subtitle">{{ translationService.translate('LOGIN_TO_CONTINUE') }}</p>
+
+    <form (ngSubmit)="onLogin()" [formGroup]="loginForm" novalidate>
+      <ion-item class="input-item">
+        <ion-label position="stacked">{{ translationService.translate('EMAIL') }}</ion-label>
+        <ion-input
+          type="email"
+          formControlName="email"
+          autocomplete="email"
+          (ionInput)="onIonInput('name', $event)"
+          ngDefaultControl
+          required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="input-item">
+        <ion-label position="stacked">{{ translationService.translate('PASSWORD') }}</ion-label>
+        <ion-input
+          type="password"
+          formControlName="password"
+          autocomplete="current-password"
+          (ionInput)="onIonInput('password', $event)"
+          ngDefaultControl
+          required>
+            <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
+      </ion-item>
+
+      <ion-button expand="block" type="submit" [disabled]="loginForm.invalid" class="login-btn">
+        <span *ngIf="isLoading">{{ translationService.translate('LOGGING_IN_BUTTON') }}</span>
+        <span *ngIf="!isLoading">{{ translationService.translate('LOGIN_BUTTON') }}</span>
+      </ion-button>
+    </form>
+
+    <div class="extra-links">
+      <a routerLink="/forgot-password">{{ translationService.translate('FORGOT_PASSWORD') }}</a>
+    </div>
+
+    <div class="extra-links" (click)="goToSignup()">
+      <a routerLink="/signup">{{ translationService.translate('ALREADY_HAVE_AN_ACCOUNT') }}</a>
+    </div>
+  </div>
+
+  
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="langSelect.open()">
+      <ion-icon name="globe-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+    <!-- Hidden language selector -->
+  <ion-select
+    interface="action-sheet"
+    mode="ios"
+    class="lang-select"
+    [value]="selectedLang"
+    [selectedText]="getLangShort(selectedLang)"
+    (ionChange)="onLanguageChange($event)"
+    #langSelect
+    style="display: none;"
+  >
+    <ion-select-option value="en">English</ion-select-option>
+    <ion-select-option value="sv">Svenska</ion-select-option>
+    <ion-select-option value="es">Español</ion-select-option>
+  </ion-select>
+
+</ion-content>

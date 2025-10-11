@@ -153,6 +153,17 @@
     "PODCAST_PLAY_EPISODE": "Spela avsnitt",
     "PODCAST_LATEST_EPISODE": "Senaste avsnittet",
     "PODCAST_SERIES": "Podcastserier",
-    "PODCAST_SERIES_DESC": "Varje serie erbjuder de senaste 3 avsnitten med automatiska uppdateringar."
+    "PODCAST_SERIES_DESC": "Varje serie erbjuder de senaste 3 avsnitten med automatiska uppdateringar.",
+    "LOGIN_BUTTON": "Logga in",
+    "LOGGING_IN_BUTTON": "Loggar in...",
+    "LOGIN_TO_CONTINUE": "Logga in för att fortsätta",
+    "FORGOT_PASSWORD": "Glömt lösenord?",
+    "RESET_PASSWORD": "Återställ lösenord",
+    "PASSWORD": "Lösenord",
+    "ALREADY_HAVE_AN_ACCOUNT": "Har du redan ett konto? Logga in",
+    "DONT_HAVE_AN_ACCOUNT": "Har du inget konto? Registrera dig",
+    "SIGNUP_BUTTON": "Registrera dig",
+    "SIGNING_UP_BUTTON": "Registrerar...",
+    "SIGNUP_TO_CONTINUE": "Registrera dig för att fortsätta"
 
 }

@@ -153,5 +153,18 @@
     "PODCAST_PLAY_EPISODE": "Reproducir episodio",
     "PODCAST_LATEST_EPISODE": "Último episodio",
     "PODCAST_SERIES": "Serie de podcast",
-    "PODCAST_SERIES_DESC" : "Cada serie ofrece los 3 episodios más recientes con actualizaciones automáticas."
+    "PODCAST_SERIES_DESC" : "Cada serie ofrece los 3 episodios más recientes con actualizaciones automáticas.",
+    "LOGIN_BUTTON": "Iniciar sesión",
+    "LOGGING_IN_BUTTON": "Iniciando sesión...",
+    "LOGIN_TO_CONTINUE": "Iniciar sesión para continuar",
+    "FORGOT_PASSWORD" : "¿Olvidaste tu contraseña?",
+    "RESET_PASSWORD": "Restablecer contraseña",
+    "PASSWORD": "Contraseña",
+    "ALREADY_HAVE_AN_ACCOUNT" : "¿Ya tienes una cuenta? Iniciar sesión",
+    "DONT_HAVE_AN_ACCOUNT": "¿No tienes una cuenta? Regístrate",
+    "SIGNUP_BUTTON": "Regístrate",
+    "SIGNING_UP_BUTTON": "Registrando...",
+    "SIGNUP_TO_CONTINUE": "Regístrate para continuar"
+
+
 }
