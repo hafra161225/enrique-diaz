@@ -50,12 +50,12 @@
       </ion-button>
     </form>
 
-    <div class="extra-links">
+    <div class="extra-links" tappable (click)="goToForgotPassword()">
       <a routerLink="/forgot-password">{{ translationService.translate('FORGOT_PASSWORD') }}</a>
     </div>
 
-    <div class="extra-links" (click)="goToSignup()">
-      <a routerLink="/signup">{{ translationService.translate('ALREADY_HAVE_AN_ACCOUNT') }}</a>
+    <div class="extra-links" tappable (click)="goToSignup()">
+      <a routerLink="/signup">{{ translationService.translate('DONT_HAVE_AN_ACCOUNT') }}</a>
     </div>
   </div>
 

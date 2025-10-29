@@ -1,0 +1,93 @@
+<ion-header [translucent]="true" class="background">
+  <ion-toolbar class="background">
+    <div class="container header-inner">
+      <ion-buttons slot="start">
+        <ion-button (click)="gotoWorkWithMe()">
+          <ion-icon name="chevron-back-circle-outline" size="medium"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>
+        {{ translationService.translate('BOOK_A_SESSION') }}
+      </ion-title>
+      <ion-buttons slot="end">
+        <ion-button>
+          <div class="lang-select-wrapper-mobile">
+            <ion-icon name="globe-outline" class="lang-icon"></ion-icon>
+            <div class="lang-select-container">
+              <ion-select
+                interface="action-sheet"
+                mode="ios"
+                class="lang-select"
+                [value]="selectedLang"
+                [selectedText]="getLangShort(selectedLang)"
+                (ionChange)="onLanguageChange($event)"
+              >
+                <ion-select-option value="en">
+                  English
+                </ion-select-option>
+                <ion-select-option value="sv">
+                  Svenska
+                </ion-select-option>
+                <ion-select-option value="es">
+                  Español
+                </ion-select-option>
+              </ion-select>
+            </div>
+          </div>
+        </ion-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="landing ion-padding" id="main-content">
+  <!-- Background Decorations -->
+  <div class="bg-gradient"></div>
+  <div class="orb orb-1" data-anim="orb"></div>
+  <div class="orb orb-2" data-anim="orb"></div>
+
+  <div class="container page-content">
+    <div class="book-session-wrapper" *ngIf="freeSession">
+      <h1>{{ translationService.translate('SELECT_DATE_TIME') }}</h1>
+      <p>{{ translationService.translate('SELECT_DATE_TIME_DESC') }}</p>
+    </div>
+  </div>
+
+  <div class="grid-services">
+    <div class="card-service" data-anim="stagger-card" >
+      <h3>{{ translationService.translate('BUSINESS_HOURS') }}</h3>
+      <p>{{ translationService.translate('MONDAY_FRIDAY') }} : 9:00 - 18:00</p>
+      <p>{{ translationService.translate('SATURDAY_SUNDAY') }} : {{ translationService.translate('CLOSED') }}</p>
+    </div>
+    <form class="card-service" data-anim="stagger-card" [formGroup]="dateTimeForm" (ngSubmit)="onSubmit()">
+      <ion-datetime
+        [locale]="locale"
+        [min]="minDate"
+        [isDateEnabled]="isDateEnabled"
+        formControlName="date"
+        hourCycle="h23" 
+        [hourValues]="allowedHours"
+        [minuteValues]="allowedMinutes"
+        (ionChange)="onDateTimeChange($event)">
+          <span slot="title">{{ translationService.translate('RESERVE_DATE') }}</span>
+          <span slot="time-label">{{ translationService.translate('TIME') }}</span>
+      </ion-datetime>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button expand="block" class="book-call" (click)="gotoWorkWithMe()">{{ translationService.translate('BOOK') }}</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button expand="block" 
+                        class="book-call"
+                        type="submit" 
+                        [disabled]="dateTimeForm.invalid">
+                        <span *ngIf="isLoading">{{ translationService.translate('CONTINUING') }}...</span>
+                        <span *ngIf="!isLoading">{{ translationService.translate('CONTINUE') }}</span>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
+</ion-content>

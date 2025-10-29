@@ -37,15 +37,17 @@
         <a (click)="gotoAboutMe()" tappable>{{ translationService.translate('ABOUT_ME') }}</a>
         <a (click)="gotoPodcasts()" tappable>{{ translationService.translate('PODCASTS') }}</a>
         <a class="active-link" (click)="gotoWorkWithMe()" tappable>{{ translationService.translate('SERVICES') }}</a>
-        <a (click)="gotoReservations()" tappable>{{ translationService.translate('RESERVATIONS') }}</a>
         <a (click)="gotoContact()" tappable>{{ translationService.translate('CONTACT') }}</a>
       </nav>
       <div class="nav-actions">
-        <ion-button fill="outline" shape="round" expand="block" size="small" (click)="onSignup()">
+        <ion-button *ngIf="!enriqueId" fill="outline" shape="round" expand="block" size="small" (click)="onSignup()">
           {{ translationService.translate('REGISTER') }}
         </ion-button>
-        <ion-button fill="outline" shape="round" expand="block" size="small" (click)="onLogin()">
+        <ion-button *ngIf="!enriqueId" fill="outline" shape="round" expand="block" size="small" (click)="onLogin()">
           {{ translationService.translate('LOGIN') }}
+        </ion-button>
+        <ion-button *ngIf="enriqueId" fill="clear" id="work-lg">
+          <ion-icon name="person-circle-outline"></ion-icon>
         </ion-button>
         <div class="lang-select-wrapper">
           <ion-icon name="globe-outline" class="lang-icon"></ion-icon>
@@ -100,8 +102,11 @@
           </div>
         </ion-button>
         <ion-button >
-          <div class="flex" tappable (click)="onLogin()">
-            Login
+          <div class="flex" *ngIf="!enriqueId" tappable (click)="onLogin()">
+            {{ translationService.translate('LOGIN') }}
+          </div>
+          <div class="flex" *ngIf="enriqueId" tappable id="work-sm">
+            <ion-icon name="person-circle-outline" size="large"></ion-icon>
           </div>
         </ion-button>
       </ion-buttons>
@@ -119,7 +124,7 @@
     <p>{{ translationService.translate('WORK_WITH_ME_DESC') }}</p>
   </section>
 
-  <ion-segment id="servicesis" value="all">
+  <ion-segment id="servicesis" value="all" >
     <ion-segment-button value="all" content-id="all">
       <ion-label>
         {{ translationService.translate('ALL') }}
@@ -151,7 +156,8 @@
             <ul class="card-service-actions">
               <li *ngFor="let item of translationService.translateArray('CARD_SERVICE_DISCOVERY')">{{ item }}</li>
             </ul>
-            <ion-button expand="block" class="book-call">{{ translationService.translate('CONFIRM_BOOKING') }}</ion-button>
+            <ion-button expand="block" *ngIf="!enriqueId" class="book-call" (click)="notLoggedIn()">{{ translationService.translate('CONFIRM_BOOKING') }}</ion-button>
+            <ion-button expand="block" *ngIf="enriqueId" class="book-call" [routerLink] = "['/', 'book-a-session', freeSession]">{{ translationService.translate('CONFIRM_BOOKING') }}</ion-button>
           </div>
           <div class="card-service" data-anim="stagger-card" >
             <h3>{{ translationService.translate('SINGLE_COACHING_SESSION') }}</h3>
@@ -163,7 +169,8 @@
             <ul class="card-service-actions">
               <li *ngFor="let item of translationService.translateArray('CARD_SERVICE_SINGLE_SESSION')">{{ item }}</li>
             </ul>
-            <ion-button expand="block" class="book-call">{{ translationService.translate('SELECT') }}</ion-button>
+            <ion-button expand="block" *ngIf="!enriqueId" class="book-call" (click)="notLoggedIn()">{{ translationService.translate('SELECT') }}</ion-button>
+            <ion-button expand="block" *ngIf="enriqueId" class="book-call" [routerLink] = "['/', 'book-a-session', singleSession]">{{ translationService.translate('SELECT') }}</ion-button>
           </div>
           <div class="card-service" data-anim="stagger-card" >
             <h3>{{ translationService.translate('INTENSIVE_BREAKTHROUGH_SESSION') }}</h3>
@@ -175,33 +182,36 @@
             <ul class="card-service-actions">
               <li *ngFor="let item of translationService.translateArray('CARD_SERVICE_INTENSIVE_BREAKTHROUGH')">{{ item }}</li>
             </ul>
-            <ion-button expand="block" class="book-call">{{ translationService.translate('SELECT') }}</ion-button>
+            <ion-button expand="block" *ngIf="!enriqueId" class="book-call" (click)="notLoggedIn()">{{ translationService.translate('SELECT') }}</ion-button>
+            <ion-button expand="block" *ngIf="enriqueId" class="book-call" [routerLink] = "['/', 'book-a-session', intensiveSession]">{{ translationService.translate('SELECT') }}</ion-button>
           </div>
           <div class="card-service" data-anim="stagger-card" >
             <span class="subscription">Subscription</span>
             <h3>{{ translationService.translate('MONTHLY_SUBSCRIPTION') }}</h3>
             <p>{{ translationService.translate('MONTHLY_SUBSCRIPTION_DESC') }}</p>
             <div class="card-service-meta">
-              <span class="price">$400/<sub>month</sub></span>
+              <span class="price">$400/<sub>{{ translationService.translate('MONTH') }}</sub></span>
               <span class="minutes">60 min</span>
             </div>
             <ul class="card-service-actions">
               <li *ngFor="let item of translationService.translateArray('CARD_MONTHLY_SUBSCRIPTION')">{{ item }}</li>
             </ul>
-            <ion-button expand="block" class="book-call">{{ translationService.translate('SELECT') }}</ion-button>
+            <ion-button expand="block" *ngIf="!enriqueId" class="book-call" (click)="notLoggedIn()">{{ translationService.translate('SELECT') }}</ion-button>
+            <ion-button expand="block" *ngIf="enriqueId" class="book-call" [routerLink] = "['/', 'book-a-session', monthlySession]">{{ translationService.translate('SELECT') }}</ion-button>
           </div>
           <div class="card-service" data-anim="stagger-card" >
             <span class="subscription">Subscription</span>
             <h3>{{ translationService.translate('PREMIUM_TRANSFORMATION') }}</h3>
             <p>{{ translationService.translate('PREMIUM_TRANSFORMATION_DESC') }}</p>
             <div class="card-service-meta">
-              <span class="price">$500/<sub>month</sub></span>
+              <span class="price">$500/<sub>{{ translationService.translate('MONTH') }}</sub></span>
               <span class="minutes">60 min</span>
             </div>
             <ul class="card-service-actions">
               <li *ngFor="let item of translationService.translateArray('CARD_PREMIUM_TRANSFORMATION')">{{ item }}</li>
             </ul>
-            <ion-button expand="block" class="book-call">{{ translationService.translate('SELECT') }}</ion-button>
+            <ion-button expand="block" *ngIf="!enriqueId" class="book-call" (click)="notLoggedIn()">{{ translationService.translate('SELECT') }}</ion-button>
+            <ion-button expand="block" *ngIf="enriqueId" class="book-call" [routerLink] = "['/', 'book-a-session', premiumSession]">{{ translationService.translate('SELECT') }}</ion-button>
           </div>
         </div>
       </section>
@@ -220,7 +230,8 @@
             <ul class="card-service-actions">
               <li *ngFor="let item of translationService.translateArray('CARD_SERVICE_DISCOVERY')">{{ item }}</li>
             </ul>
-            <ion-button expand="block" class="book-call">{{ translationService.translate('CONFIRM_BOOKING') }}</ion-button>
+            <ion-button expand="block" *ngIf="!enriqueId" class="book-call" (click)="notLoggedIn()">{{ translationService.translate('CONFIRM_BOOKING') }}</ion-button>
+            <ion-button expand="block" *ngIf="enriqueId" class="book-call" [routerLink] = "['/', 'book-a-session', freeSession]">{{ translationService.translate('CONFIRM_BOOKING') }}</ion-button>
           </div>
           <div class="card-service" data-anim="stagger-card" >
             <h3>{{ translationService.translate('SINGLE_COACHING_SESSION') }}</h3>
@@ -232,7 +243,8 @@
             <ul class="card-service-actions">
               <li *ngFor="let item of translationService.translateArray('CARD_SERVICE_SINGLE_SESSION')">{{ item }}</li>
             </ul>
-            <ion-button expand="block" class="book-call">{{ translationService.translate('SELECT') }}</ion-button>
+            <ion-button expand="block" *ngIf="!enriqueId" class="book-call" (click)="notLoggedIn()">{{ translationService.translate('SELECT') }}</ion-button>
+            <ion-button expand="block" *ngIf="enriqueId" class="book-call" [routerLink] = "['/', 'book-a-session', singleSession]">{{ translationService.translate('SELECT') }}</ion-button>
           </div>
           <div class="card-service" data-anim="stagger-card" >
             <h3>{{ translationService.translate('INTENSIVE_BREAKTHROUGH_SESSION') }}</h3>
@@ -244,7 +256,8 @@
             <ul class="card-service-actions">
               <li *ngFor="let item of translationService.translateArray('CARD_SERVICE_INTENSIVE_BREAKTHROUGH')">{{ item }}</li>
             </ul>
-            <ion-button expand="block" class="book-call">{{ translationService.translate('SELECT') }}</ion-button>
+            <ion-button expand="block" *ngIf="!enriqueId" class="book-call" (click)="notLoggedIn()">{{ translationService.translate('SELECT') }}</ion-button>
+            <ion-button expand="block" *ngIf="enriqueId" class="book-call" [routerLink] = "['/', 'book-a-session', intensiveSession]">{{ translationService.translate('SELECT') }}</ion-button>
           </div>
         </div>
       </section>
@@ -258,26 +271,28 @@
             <h3>{{ translationService.translate('MONTHLY_SUBSCRIPTION') }}</h3>
             <p>{{ translationService.translate('MONTHLY_SUBSCRIPTION_DESC') }}</p>
             <div class="card-service-meta">
-              <span class="price">$400/<sub>month</sub></span>
+              <span class="price">$400/<sub>{{ translationService.translate('MONTH') }}</sub></span>
               <span class="minutes">60 min</span>
             </div>
             <ul class="card-service-actions">
               <li *ngFor="let item of translationService.translateArray('CARD_MONTHLY_SUBSCRIPTION')">{{ item }}</li>
             </ul>
-            <ion-button expand="block" class="book-call">{{ translationService.translate('SELECT') }}</ion-button>
+            <ion-button expand="block" *ngIf="!enriqueId" class="book-call" (click)="notLoggedIn()">{{ translationService.translate('SELECT') }}</ion-button>
+            <ion-button expand="block" *ngIf="enriqueId" class="book-call" [routerLink] = "['/', 'book-a-session', monthlySession]">{{ translationService.translate('SELECT') }}</ion-button>
           </div>
           <div class="card-service" data-anim="stagger-card" >
             <span class="subscription">Subscription</span>
             <h3>{{ translationService.translate('PREMIUM_TRANSFORMATION') }}</h3>
             <p>{{ translationService.translate('PREMIUM_TRANSFORMATION_DESC') }}</p>
             <div class="card-service-meta">
-              <span class="price">$500/<sub>month</sub></span>
+              <span class="price">$500/<sub>{{ translationService.translate('MONTH') }}</sub></span>
               <span class="minutes">60 min</span>
             </div>
             <ul class="card-service-actions">
               <li *ngFor="let item of translationService.translateArray('CARD_PREMIUM_TRANSFORMATION')">{{ item }}</li>
             </ul>
-            <ion-button expand="block" class="book-call">{{ translationService.translate('SELECT') }}</ion-button>
+            <ion-button expand="block" *ngIf="!enriqueId" class="book-call" (click)="notLoggedIn()">{{ translationService.translate('SELECT') }}</ion-button>
+            <ion-button expand="block" *ngIf="enriqueId" class="book-call" [routerLink] = "['/', 'book-a-session', premiumSession]">{{ translationService.translate('SELECT') }}</ion-button>
           </div>
         </div>
       </section>
@@ -400,9 +415,22 @@
         <div class="footer-section newsletter-footer">
           <h4>{{ translationService.translate('NEWSLETTER') }}</h4>
           <p>{{ translationService.translate('STAY_UPDATED_INFO') }}</p>
-          <form class="footer-newsletter" (submit)="onNewsletterSubmit($event)">
-            <input type="email" name="email" placeholder="{{ translationService.translate('YOUR_EMAIL') }}" required>
-            <button type="submit">{{ translationService.translate('SUBSCRIBE') }}</button>
+          <form class="footer-newsletter" [formGroup]="subscribeForm" (ngSubmit)="onSubmit()">
+            <input 
+              type="email" 
+              formControlName="email" 
+              placeholder="{{ translationService.translate('YOUR_EMAIL') }}" 
+              required>
+            <button 
+              type="submit"
+              [disabled]="subscribeForm.invalid">
+                <span *ngIf="isLoadingSub">
+                  {{ translationService.translate('SUBSCRIBING') }}
+                </span>
+                <span *ngIf="!isLoadingSub">
+                  {{ translationService.translate('SUBSCRIBE') }}
+                </span>
+            </button>
           </form>
         </div>
       </div>
@@ -423,3 +451,13 @@
   </footer>
 
 </ion-content>
+<ion-action-sheet trigger="work-lg" 
+                  header="Actions" 
+                  [buttons]="lgActionSheetButtons" 
+                  mode="ios"
+                  *ngIf="enriqueId"></ion-action-sheet>
+<ion-action-sheet trigger="work-sm" 
+                  header="Actions" 
+                  [buttons]="smActionSheetButtons" 
+                  mode="ios"
+                  *ngIf="enriqueId"></ion-action-sheet>

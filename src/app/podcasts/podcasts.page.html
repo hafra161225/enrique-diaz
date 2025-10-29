@@ -37,15 +37,17 @@
         <a (click)="gotoAboutMe()" tappable>{{ translationService.translate('ABOUT_ME') }}</a>
         <a class="active-link" (click)="gotoPodcasts()" tappable>{{ translationService.translate('PODCASTS') }}</a>
         <a (click)="gotoWorkWithMe()" tappable>{{ translationService.translate('SERVICES') }}</a>
-        <a (click)="gotoReservations()" tappable>{{ translationService.translate('RESERVATIONS') }}</a>
         <a (click)="gotoContact()" tappable>{{ translationService.translate('CONTACT') }}</a>
       </nav>
       <div class="nav-actions">
-        <ion-button fill="outline" shape="round" expand="block" size="small" (click)="onSignup()">
+        <ion-button fill="outline" *ngIf="!enriqueId" shape="round" expand="block" size="small" (click)="onSignup()">
           {{ translationService.translate('REGISTER') }}
         </ion-button>
-        <ion-button fill="outline" shape="round" expand="block" size="small" (click)="onLogin()">
+        <ion-button fill="outline" *ngIf="!enriqueId" shape="round" expand="block" size="small" (click)="onLogin()">
           {{ translationService.translate('LOGIN') }}
+        </ion-button>
+        <ion-button *ngIf="enriqueId" fill="clear" id="podcast-lg">
+          <ion-icon name="person-circle-outline"></ion-icon>
         </ion-button>
         <div class="lang-select-wrapper">
           <ion-icon name="globe-outline" class="lang-icon"></ion-icon>
@@ -100,8 +102,11 @@
           </div>
         </ion-button>
         <ion-button >
-          <div class="flex" tappable (click)="onLogin()">
-            Login
+          <div class="flex" *ngIf="!enriqueId" tappable (click)="onLogin();">
+            {{ translationService.translate('LOGIN') }}
+          </div>
+          <div class="flex" *ngIf="enriqueId" tappable id="podcast-sm">
+            <ion-icon name="person-circle-outline" size="large"></ion-icon>
           </div>
         </ion-button>
       </ion-buttons>
@@ -230,9 +235,22 @@
         <div class="footer-section newsletter-footer">
           <h4>{{ translationService.translate('NEWSLETTER') }}</h4>
           <p>{{ translationService.translate('STAY_UPDATED_INFO') }}</p>
-          <form class="footer-newsletter" (submit)="onNewsletterSubmit($event)">
-            <input type="email" name="email" placeholder="{{ translationService.translate('YOUR_EMAIL') }}" required>
-            <button type="submit">{{ translationService.translate('SUBSCRIBE') }}</button>
+          <form class="footer-newsletter" [formGroup]="subscribeForm" (ngSubmit)="onSubmit()">
+            <input 
+              type="email" 
+              formControlName="email" 
+              placeholder="{{ translationService.translate('YOUR_EMAIL') }}" 
+              required>
+            <button 
+              type="submit"
+              [disabled]="subscribeForm.invalid">
+                <span *ngIf="isLoadingSub">
+                  {{ translationService.translate('SUBSCRIBING') }}
+                </span>
+                <span *ngIf="!isLoadingSub">
+                  {{ translationService.translate('SUBSCRIBE') }}
+                </span>
+            </button>
           </form>
         </div>
       </div>
@@ -253,3 +271,13 @@
   </footer>
 
 </ion-content>
+<ion-action-sheet trigger="podcast-lg" 
+                  header="Actions" 
+                  [buttons]="lgActionSheetButtons" 
+                  mode="ios"
+                  *ngIf="enriqueId"></ion-action-sheet>
+<ion-action-sheet trigger="podcast-sm" 
+                  header="Actions" 
+                  [buttons]="smActionSheetButtons" 
+                  mode="ios"
+                  *ngIf="enriqueId"></ion-action-sheet>

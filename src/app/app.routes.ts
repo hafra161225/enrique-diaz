@@ -1,4 +1,7 @@
 import { Routes } from '@angular/router';
+import { loggedInGuard } from './guards/logged-in-guard';
+import { confirmCodeGuard } from './guards/confirm-code-guard';
+import { confirmSentCodeGuard } from './guards/confirm-sent-code-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'tabs/home', pathMatch: 'full' },
@@ -40,5 +43,33 @@ export const routes: Routes = [
   {
     path: 'signup',
     loadComponent: () => import('./signup/signup.page').then( m => m.SignupPage)
+  },
+  {
+    path: 'forgot-password',
+    loadComponent: () => import('./forgot-password/forgot-password.page').then( m => m.ForgotPasswordPage)
+  },
+  {
+    path: 'book-a-session/:type',
+    loadComponent: () => import('./book-a-session/book-a-session.page').then( m => m.BookASessionPage),
+    canActivate: [loggedInGuard] // 🔒 Protected!
+  },
+  {
+    path: 'confirm-pay/:type',
+    loadComponent: () => import('./confirm-pay/confirm-pay.page').then( m => m.ConfirmPayPage),
+    canActivate: [loggedInGuard] // 🔒 Protected!
+  },
+  {
+    path: 'dashboard',
+    loadComponent: () => import('./dashboard/dashboard.page').then( m => m.DashboardPage)
+  },
+  {
+    path: 'confirm-code',
+    loadComponent: () => import('./confirm-code/confirm-code.page').then( m => m.ConfirmCodePage),
+    canActivate: [confirmCodeGuard]
+  },
+  {
+    path: 'new-password',
+    loadComponent: () => import('./new-password/new-password.page').then( m => m.NewPasswordPage),
+    canActivate: [confirmSentCodeGuard]
   },
 ];

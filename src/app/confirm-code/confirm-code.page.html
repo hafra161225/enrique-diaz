@@ -1,0 +1,68 @@
+<ion-content [fullscreen]="true" class="landing ion-padding" id="main-content">
+  <!-- Background Decorations -->
+  <div class="bg-gradient"></div>
+  <div class="orb orb-1" data-anim="orb"></div>
+  <div class="orb orb-2" data-anim="orb"></div>
+
+  <div class="login-wrapper">
+        
+    <!-- Back Button -->
+    <ion-button fill="clear" size="small" class="back-btn" (click)="goBack()">
+      <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+      Back
+    </ion-button>
+
+    <!-- 🪪 Logo Section -->
+    <div class="logo-wrapper">
+      <img src="assets/main-logo-white.png" alt="App Logo" />
+    </div>
+    <p class="subtitle">{{ translationService.translate('ENTER_CODE_SENT') }}</p>
+
+    <form (ngSubmit)="onLogin()" [formGroup]="codeForm" novalidate>
+      <ion-item class="input-item">
+        <ion-label position="stacked">{{ translationService.translate('CODE') }}</ion-label>
+        <ion-input-otp
+          formControlName="code"
+          [disabled]="isLoading"
+          (ionInput)="onIonInput('code', $event)"
+          length="4"
+          ngDefaultControl
+        > Didn't get a code? <a (click)="resendCode()">Resend the code</a> 
+      </ion-input-otp>
+      </ion-item>
+
+      <ion-button expand="block" type="submit" [disabled]="codeForm.invalid" class="login-btn">
+        <span *ngIf="isLoading">{{ translationService.translate('CONFIRMING_CODE') }}</span>
+        <span *ngIf="!isLoading">{{ translationService.translate('CONFIRM_CODE') }}</span>
+      </ion-button>
+    </form>
+
+    <div class="extra-links" tappable (click)="goToLogin()">
+      <a routerLink="/login">{{ translationService.translate('REMEMBER_PASSWORD_ACCOUNT') }}</a>
+    </div>
+  </div>
+
+  
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="langSelect.open()">
+      <ion-icon name="globe-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+    <!-- Hidden language selector -->
+  <ion-select
+    interface="action-sheet"
+    mode="ios"
+    class="lang-select"
+    [value]="selectedLang"
+    [selectedText]="getLangShort(selectedLang)"
+    (ionChange)="onLanguageChange($event)"
+    #langSelect
+    style="display: none;"
+  >
+    <ion-select-option value="en">English</ion-select-option>
+    <ion-select-option value="sv">Svenska</ion-select-option>
+    <ion-select-option value="es">Español</ion-select-option>
+  </ion-select>
+
+</ion-content>

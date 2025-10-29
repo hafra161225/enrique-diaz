@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms'; // ← Import this
 import { Preferences } from '@capacitor/preferences';
 import { TranslationService } from '../services/translation-service';
+import { Login } from '../services/login';
 
 @Component({
   selector: 'app-login',
@@ -43,6 +44,7 @@ export class LoginPage implements OnInit {
   constructor(private fb: FormBuilder, 
               private actionSheetController: ActionSheetController, 
               private router: Router, 
+              private loginService: Login,
               public translationService: TranslationService,
               private toastController: ToastController) { 
               addIcons(allIcons);
@@ -91,7 +93,7 @@ export class LoginPage implements OnInit {
     });
   }
 
-  onLogin() {
+  async onLogin() {
     this.isLoading = true;
 
     if (this.loginForm.invalid) {
@@ -101,12 +103,67 @@ export class LoginPage implements OnInit {
     }
     
     const message = this.translationService.translate('MESSAGE_LOGIN_SUCCESS');
-    setTimeout(() => {
-      this.showToast(message, 'success');
-      this.isLoading= false;
-      this.loginForm.reset();
-      this.router.navigate(['/login']);
-    }, 4000);
+    const login_failed_and = this.translationService.translate('LOGIN_FAILED_AND');
+    const login_failed = this.translationService.translate('LOGIN_FAILED');
+    const unexpected_error = this.translationService.translate('UNEXPECTED_ERROR');
+    const unexpected_error_occured = this.translationService.translate('UNEXPECTED_ERROR_OCCURED');
+    const wrong_email_or_password = this.translationService.translate('WRONG_EMAIL_OR_PASSWORD');
+    
+    this.isLoading = true;
+    
+    try {
+      // Get form values
+      const formData = this.loginForm.value;
+      console.log('Great: ', formData);
+
+      this.loginService.login(formData).subscribe({
+        next: async (response: any) => {
+          this.isLoading = false;
+          
+          if (response && response.success == true) {
+            this.loginForm.reset(); // Reset the form
+
+            // if a user finished all the application process
+            if(response.userId){
+              console.log('Got user ID:', response.userId);
+              await Preferences.set({
+                key: 'enriqueId',
+                value: response.userId,
+              });
+
+              console.log('Saved preference: ', response.userId);
+
+              setTimeout(() => {
+                  this.showToast(message, 'success');
+                  this.router.navigate(['/tabs/home']);
+              }, 2000);
+            }
+          } else {
+            if(response?.message == "Wrong  email or password!"){
+              this.markFormGroupTouched();
+              await this.showToast(wrong_email_or_password, 'danger');
+            } else {  
+              this.markFormGroupTouched();
+              await this.showToast(login_failed, 'danger');
+            }
+          }
+        },
+        error: async (error: any) => {
+          // await loading.dismiss();
+          this.isLoading = false;
+          console.error('Login error:', error);
+          
+          await this.showToast(login_failed_and, 'danger');
+        }
+      });
+      
+    } catch (error) {
+      // await loading.dismiss();
+      this.isLoading = false;
+      console.error(unexpected_error, error);
+      
+      await this.showToast(unexpected_error_occured, 'danger');
+    }
   }
 
   getLangShort(lang: string): string {
@@ -130,6 +187,10 @@ export class LoginPage implements OnInit {
 
   goToSignup(){
     this.router.navigate(['/signup']);
+  }
+
+  goToForgotPassword(){
+    this.router.navigate(['/forgot-password']);
   }
 
   // enable back space

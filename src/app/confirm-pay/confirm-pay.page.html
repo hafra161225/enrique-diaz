@@ -1,0 +1,141 @@
+<ion-header [translucent]="true" class="background">
+  <ion-toolbar class="background">
+    <div class="container header-inner">
+      <ion-buttons slot="start">
+        <ion-button (click)="gotoWorkWithMe()">
+          <ion-icon name="chevron-back-circle-outline" size="medium"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>
+        {{ translationService.translate('BOOK_A_SESSION') }}
+      </ion-title>
+      <ion-buttons slot="end">
+        <ion-button>
+          <div class="lang-select-wrapper-mobile">
+            <ion-icon name="globe-outline" class="lang-icon"></ion-icon>
+            <div class="lang-select-container">
+              <ion-select
+                interface="action-sheet"
+                mode="ios"
+                class="lang-select"
+                [value]="selectedLang"
+                [selectedText]="getLangShort(selectedLang)"
+                (ionChange)="onLanguageChange($event)"
+              >
+                <ion-select-option value="en">
+                  English
+                </ion-select-option>
+                <ion-select-option value="sv">
+                  Svenska
+                </ion-select-option>
+                <ion-select-option value="es">
+                  Español
+                </ion-select-option>
+              </ion-select>
+            </div>
+          </div>
+        </ion-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" [fullscreen]="true" class="landing ion-padding" id="main-content">
+  <!-- Background Decorations -->
+  <div class="bg-gradient"></div>
+  <div class="orb orb-1" data-anim="orb"></div>
+  <div class="orb orb-2" data-anim="orb"></div>
+
+  <div class="container page-content">
+    <div class="book-session-wrapper" *ngIf="freeSession">
+      <h1>{{ translationService.translate('CONFIRM_PAY') }}</h1>
+      <p>{{ translationService.translate('CONFIRM_PAY_DESC') }}</p>
+    </div>
+  </div>
+
+    <div class="grid-services">
+      <div class="card-service" data-anim="stagger-card" >
+        <ion-item lines="none" class="transparent">
+          <ion-avatar [button]="false">
+            <ion-icon name="calendar-outline" size="large"></ion-icon>
+          </ion-avatar>
+          <ion-label>
+            <h3>{{ translationService.translate('SERVICE') }}</h3>
+            <p *ngIf="activeType == freeSession">
+              {{ translationService.translate('DISCOVERY_CALL') }}
+            </p>
+            <p *ngIf="activeType == singleSession">
+              {{ translationService.translate('SINGLE_COACHING_SESSION') }}
+            </p>
+            <p *ngIf="activeType == intensiveSession">
+              {{ translationService.translate('INTENSIVE_BREAKTHROUGH_SESSION') }}
+            </p>
+            <p *ngIf="activeType == monthlySession">
+              {{ translationService.translate('MONTHLY_SUBSCRIPTION') }}
+            </p>
+            <p *ngIf="activeType == premiumSession">
+              {{ translationService.translate('PREMIUM_TRANSFORMATION') }}
+            </p>
+          </ion-label>
+        </ion-item>
+        <ion-item lines="none" class="transparent">
+          <ion-avatar [button]="false">
+            <ion-icon name="time-outline" size="large"></ion-icon>
+          </ion-avatar>
+          <ion-label>
+            <h3>{{ translationService.translate('DATE_TIME') }}</h3>
+            <p>{{ dateTime }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item lines="none" class="transparent">
+          <ion-avatar [button]="false">
+            <ion-icon name="card-outline" size="large"></ion-icon>
+          </ion-avatar>
+          <ion-label>
+            <h3>{{ translationService.translate('PRICE') }}</h3>
+            <p *ngIf="activeType == freeSession">
+              $0
+            </p>
+            <p *ngIf="activeType == singleSession">
+              $50
+            </p>
+            <p *ngIf="activeType == intensiveSession">
+              $100
+            </p>
+            <p *ngIf="activeType == monthlySession">
+              $400 / {{ translationService.translate('MONTH') }}
+            </p>
+            <p *ngIf="activeType == premiumSession">
+              $500 / {{ translationService.translate('MONTH') }}
+            </p>
+          </ion-label>
+        </ion-item>
+      </div>
+    <form class="card-service" data-anim="stagger-card" [formGroup]="noteForm" (ngSubmit)="onSubmit()">
+      <ion-item class="note-locked">
+        <ion-label position="stacked">{{ translationService.translate('NOTES') }}</ion-label>
+        <ion-textarea
+          formControlName="note"
+          (ionInput)="onIonInput('note', $event)">
+        </ion-textarea>
+      </ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button expand="block" class="book-call" (click)="gotoWorkWithMe()">{{ translationService.translate('BACK') }}</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button expand="block" 
+                        class="book-call"
+                        type="submit" 
+                        [disabled]="noteForm.invalid">
+                        <span *ngIf="isLoadingM">{{ translationService.translate('PAYING') }}</span>
+                        <span *ngIf="!isLoadingM">{{ translationService.translate('PAY') }}</span>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
+
+</ion-content>

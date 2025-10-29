@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms'; // ← Import this
 import { Preferences } from '@capacitor/preferences';
 import { TranslationService } from '../services/translation-service';
+import { Signup } from '../services/signup';
 
 @Component({
   selector: 'app-signup',
@@ -43,7 +44,8 @@ export class SignupPage implements OnInit {
               private actionSheetController: ActionSheetController, 
               private router: Router, 
               public translationService: TranslationService,
-              private toastController: ToastController) { 
+              private toastController: ToastController,
+              private signupService: Signup) { 
               addIcons(allIcons);
               this.initLanguagePreference();
               this.translationService.loadLanguage(this.selectedLang);
@@ -91,7 +93,7 @@ export class SignupPage implements OnInit {
     });
   }
 
-  onLogin() {
+  async onLogin() {
     this.isLoading = true;
 
     if (this.loginForm.invalid) {
@@ -101,12 +103,66 @@ export class SignupPage implements OnInit {
     }
     
     const message = this.translationService.translate('MESSAGE_LOGIN_SUCCESS');
-    setTimeout(() => {
-      this.showToast(message, 'success');
-      this.isLoading= false;
-      this.loginForm.reset();
-      this.router.navigate(['/login']);
-    }, 4000);
+    const login_failed_and = this.translationService.translate('SIGNUP_FAILED_AND');
+    const login_failed = this.translationService.translate('SIGNUP_FAILED');
+    const unexpected_error = this.translationService.translate('UNEXPECTED_ERROR');
+    const unexpected_error_occured = this.translationService.translate('UNEXPECTED_ERROR_OCCURED');
+    const wrong_email_or_password = this.translationService.translate('EMAIL_ALREADY_IN_USE');
+    
+    this.isLoading = true;
+    try {
+      // Get form values
+      const formData = this.loginForm.value;
+      console.log('Great: ', formData);
+
+      this.signupService.signup(formData).subscribe({
+        next: async (response: any) => {
+          this.isLoading = false;
+          
+          if (response && response.success == true) {
+            this.loginForm.reset(); // Reset the form
+
+            // if a user finished all the application process
+            if(response.userId){
+              console.log('Got user ID:', response.userId);
+              await Preferences.set({
+                key: 'enriqueId',
+                value: response.userId,
+              });
+
+              console.log('Saved preference: ', response.userId);
+              this.showToast(message, 'success');
+
+              setTimeout(() => {
+                  this.router.navigate(['/tabs/home']);
+              }, 2000);
+            }
+          } else {
+            if(response?.message == "Email address already registered"){
+              this.markFormGroupTouched();
+              await this.showToast(wrong_email_or_password, 'danger');
+            } else {  
+              this.markFormGroupTouched();
+              await this.showToast(login_failed, 'danger');
+            }
+          }
+        },
+        error: async (error: any) => {
+          // await loading.dismiss();
+          this.isLoading = false;
+          console.error('Login error:', error);
+          
+          await this.showToast(login_failed_and, 'danger');
+        }
+      });
+      
+    } catch (error) {
+      // await loading.dismiss();
+      this.isLoading = false;
+      console.error(unexpected_error, error);
+      
+      await this.showToast(unexpected_error_occured, 'danger');
+    }
   }
 
   getLangShort(lang: string): string {

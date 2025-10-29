@@ -1,28 +1,39 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, 
+          inject, AfterViewInit, ViewEncapsulation, 
+          ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonHeader, IonToolbar, IonTitle, IonContent, 
           IonImg, IonMenu, IonButtons, IonMenuButton, 
           IonList, IonItem, IonIcon, IonMenuToggle, 
           ActionSheetController, IonButton, IonSelect, 
-          IonSelectOption, IonLabel, IonText, IonAvatar } from '@ionic/angular/standalone';
+          IonSelectOption, IonLabel, IonText, IonAvatar,
+          ToastController, IonActionSheet } from '@ionic/angular/standalone';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { addIcons } from 'ionicons';
 import * as allIcons from 'ionicons/icons';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { Preferences } from '@capacitor/preferences';
 import { TranslationService } from '../services/translation-service';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Newsletter } from '../services/newsletter';
 
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
   imports: [CommonModule, IonHeader, IonToolbar, 
             IonImg, IonIcon, IonTitle, IonContent, 
             IonMenu, IonButtons, IonMenuButton, IonList, 
             IonItem, IonMenuToggle, IonButton, IonSelect,
-            IonSelectOption, IonLabel, IonText, IonAvatar],
+            IonSelectOption, IonLabel, IonText, IonAvatar,
+            RouterLink, ReactiveFormsModule, FormsModule,
+            IonActionSheet],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePage implements AfterViewInit {
   signupMessage: string | null = null;
@@ -30,6 +41,15 @@ export class HomePage implements AfterViewInit {
   showCookieBanner = true;
   selectedLang = 'en';
   currentTestimonial = 0;
+  freeSession= 'free-session';
+  singleSession= 'single-session';
+  intensiveSession= 'intensive-session';
+  monthlySession= 'monthly-session';
+  premiumSession= 'premium-session';
+  isLoading= false;
+  isLoadingSub= false;
+  subscribeForm: FormGroup;
+  enriqueId: any;
   testimonials = [
     {
       quote: "The coaching sessions transformed my leadership approach completely. I now lead with confidence and clarity.",
@@ -48,12 +68,22 @@ export class HomePage implements AfterViewInit {
     }
   ];
 
+  private route: ActivatedRoute = inject(ActivatedRoute);
+
   constructor(private actionSheetController: ActionSheetController, 
               private router: Router, 
-              public translationService: TranslationService) {
+              public translationService: TranslationService,
+              private formBuilder: FormBuilder, // ← Keep these in constructor
+              private cdr: ChangeDetectorRef,
+              private newsletterService: Newsletter,
+              private toastController: ToastController) {
                 addIcons(allIcons);
+                this.checkUserSession();
                 this.initLanguagePreference();
                 this.translationService.loadLanguage(this.selectedLang);
+                this.subscribeForm = this.formBuilder.group({
+                  email: ['', [Validators.required, Validators.email]],
+                });
               }
 
   async initLanguagePreference() {
@@ -81,6 +111,87 @@ export class HomePage implements AfterViewInit {
     this.signupError = false;
     this.signupMessage = 'Super, we\'ll be in touch';
     form.reset();
+  }
+
+  private async showToast(message: string, color: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 3000,
+      color: color,
+      position: 'bottom',
+      buttons: [
+        {
+          text: 'OK',
+          role: 'cancel'
+        }
+      ]
+    });
+    await toast.present();
+  }
+
+  private markFormGroupTouched() {
+    Object.keys(this.subscribeForm.controls).forEach(key => {
+      this.subscribeForm.get(key)?.markAsTouched();
+    });
+  }
+
+  async onSubmit(){
+    this.isLoading = true;
+    this.isLoadingSub= true;
+
+    if (this.subscribeForm.invalid) {
+      this.showToast('Please fill in all required fields correctly', 'warning');
+      this.markFormGroupTouched();
+      return;
+    }
+        
+    const message = this.translationService.translate('SUBSCRIBED');
+    const login_failed_and = this.translationService.translate('LOGIN_FAILED_AND');
+    const email_registered= this.translationService.translate('EMAIL_SUBSCRIBED_ALREADY');
+    const login_failed = this.translationService.translate('LOGIN_FAILED');
+    const unexpected_error = this.translationService.translate('UNEXPECTED_ERROR');
+    const unexpected_error_occured = this.translationService.translate('UNEXPECTED_ERROR_OCCURED');
+    const wrong_email_or_password = this.translationService.translate('WRONG_EMAIL_OR_PASSWORD');
+    
+    try {
+      // Get form values
+      const formData = this.subscribeForm.value;
+      console.log('Great: ', formData);
+
+      this.newsletterService.addNewsletter(formData).subscribe({
+        next: async (response: any) => {
+          this.isLoading = false;
+          this.isLoadingSub= false;
+          
+          if (response && response.success == true) {
+            this.subscribeForm.reset(); // Reset the form
+            await this.showToast(message, 'success');
+          } else {
+            if(response?.message == "Email address already subscribed to the newsletter"){
+              this.markFormGroupTouched();
+              await this.showToast(email_registered, 'danger');
+            } else {  
+              this.markFormGroupTouched();
+              await this.showToast(unexpected_error, 'danger');
+            }
+          }
+        },
+        error: async (error: any) => {
+          this.isLoading = false;
+          this.isLoadingSub= false;
+          console.error('Login error:', error);
+          
+          await this.showToast(unexpected_error, 'danger');
+        }
+      });
+      
+    } catch (error) {
+      this.isLoading = false;
+      this.isLoadingSub= false;
+      console.error(unexpected_error, error);
+      
+      await this.showToast(unexpected_error_occured, 'danger');
+    }
   }
 
   // async showCookieActionSheet() {
@@ -138,6 +249,12 @@ export class HomePage implements AfterViewInit {
     // Here you would typically send the email to your backend
     alert('Thank you for subscribing! You\'ll receive our latest insights soon.');
     form.reset();
+  }
+
+  checkUserSession() {
+    Preferences.get({ key: 'enriqueId' }).then(result => {
+      this.enriqueId = result.value;
+    });
   }
 
   ngAfterViewInit(): void {
@@ -261,6 +378,10 @@ export class HomePage implements AfterViewInit {
     this.router.navigate(['/login']);
   }
 
+  // START THE BOOK SESSION
+
+  // END THE BOOK SESSION
+
   getLangShort(lang: string): string {
     switch (lang) {
       case 'en': return 'EN';
@@ -274,6 +395,54 @@ export class HomePage implements AfterViewInit {
     this.selectedLang = event.detail.value;
     await Preferences.set({ key: 'language', value: this.selectedLang });
     this.translationService.changeLanguage(this.selectedLang);
+  }
+
+  async signout(){
+    await Preferences.remove({ key: 'enriqueId' });
+    this.enriqueId = null;
+    this.cdr.detectChanges();
+    this.router.navigate(['/tabs/home']);
+  }
+
+
+  public lgActionSheetButtons = [
+    {
+      text: this.translationService.translate('LOGOUT'),
+      icon: 'power-outline',
+      handler: () => {
+        this.signout();
+      }
+    },
+    {
+      text: this.translationService.translate('CANCEL'),
+      role: 'cancel',
+      data: {
+        action: 'cancel',
+      },
+    },
+  ];
+
+  
+  public smActionSheetButtons = [
+    {
+      text: this.translationService.translate('LOGOUT'),
+      icon: 'power-outline',
+      handler: () => {
+        this.signout();
+      }
+    },
+    {
+      text: this.translationService.translate('CANCEL'),
+      role: 'cancel',
+      data: {
+        action: 'cancel',
+      },
+    },
+  ];
+
+  async notLoggedIn(){
+    const message = this.translationService.translate('PLEASE_LOGIN_TO_BOOK');
+    await this.showToast(message, 'warning');
   }
 }
 

@@ -1070,3 +1070,12 @@ ion-segment-view {
   color: #ffffff; /* Ensure content text is readable */
 }
 
+ion-segment-button ion-label {
+  text-transform: none !important;
+}
+ion-segment-view {
+  height: auto !important;
+}
+ion-segment-content{
+  height: auto !important;
+}

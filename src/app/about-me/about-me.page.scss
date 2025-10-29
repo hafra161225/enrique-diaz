@@ -207,7 +207,7 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 
 /* Coral background like Superlist */
 :root {
-  --super-coral: #f04a3a;
+  --super-coral: transparent;
 }
 .hero-super { position: relative; }
 .hero-super::before {
@@ -247,7 +247,7 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 .subhead {
   margin-top: 16px;
   font-size: clamp(16px, 2.4vw, 20px);
-  color: var(--color-muted);
+  color: white;
 }
 
 .hero-cta { margin-top: 24px; display: flex; gap: 16px; align-items: center; }

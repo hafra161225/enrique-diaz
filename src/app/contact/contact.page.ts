@@ -1,4 +1,5 @@
-import { Component, AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, 
+          OnInit, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonHeader, IonToolbar, IonTitle, IonContent, 
           IonImg, IonMenu, IonButtons, IonMenuButton, 
@@ -15,6 +16,8 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms'; // ← Import this
 import { Preferences } from '@capacitor/preferences';
 import { TranslationService } from '../services/translation-service';
+import { Newsletter } from '../services/newsletter';
+import { Contact } from '../services/contact';
 
 
 @Component({
@@ -37,7 +40,11 @@ export class ContactPage implements AfterViewInit {
   showCookieBanner = true;
   selectedLang = 'en';
   currentTestimonial = 0;
+  isLoadingSub= false;
+  isLoadingM= false;
+  subscribeForm: FormGroup;
   isLoading= false;
+  enriqueId: any;
   testimonials = [
     {
       quote: "The coaching sessions transformed my leadership approach completely. I now lead with confidence and clarity.",
@@ -60,16 +67,23 @@ export class ContactPage implements AfterViewInit {
   constructor(private actionSheetController: ActionSheetController, 
               private router: Router, 
               public translationService: TranslationService,
+              private cdr: ChangeDetectorRef,
+              private newsletterService: Newsletter,
+              private contactService: Contact,
               private formBuilder: FormBuilder, // ← Keep these in constructor
               private toastController: ToastController) {
                 addIcons(allIcons);
                 this.initLanguagePreference();
+                this.checkUserSession();
                 this.translationService.loadLanguage(this.selectedLang);
                 this.contactForm = this.formBuilder.group({
                   name: ['', [Validators.required]],
                   email: ['', [Validators.required, Validators.email]],
                   subject: ['', [Validators.required]],
                   message: ['', [Validators.required]],
+                });
+                this.subscribeForm = this.formBuilder.group({
+                  email: ['', [Validators.required, Validators.email]],
                 });
               }
 
@@ -83,6 +97,12 @@ export class ContactPage implements AfterViewInit {
       this.selectedLang = value;
       this.translationService.loadLanguage(this.selectedLang);
     }
+  }
+  
+  checkUserSession() {
+    Preferences.get({ key: 'enriqueId' }).then(result => {
+      this.enriqueId = result.value;
+    });
   }
 
   onSubmitEmail(event: Event) {
@@ -316,8 +336,8 @@ export class ContactPage implements AfterViewInit {
   }
 
   // submit contact form
-  submitForm() {
-    this.isLoading = true;
+  async submitForm() {
+    this.isLoadingM = true;
 
     if (this.contactForm.invalid) {
       this.showToast('Please fill in all required fields correctly', 'warning');
@@ -326,12 +346,160 @@ export class ContactPage implements AfterViewInit {
     }
 
     const message = this.translationService.translate('MESSAGE_SENT_SUCCESS');
-    setTimeout(() => {
-      this.showToast(message, 'success');
-      this.isLoading= false;
-      this.contactForm.reset();
-    }, 4000);
+    const message_not_sent= this.translationService.translate('MESSAGE_NOT_SENT');
+    const login_failed_and = this.translationService.translate('LOGIN_FAILED_AND');
+    const email_registered= this.translationService.translate('EMAIL_SUBSCRIBED_ALREADY');
+    const login_failed = this.translationService.translate('LOGIN_FAILED');
+    const unexpected_error = this.translationService.translate('UNEXPECTED_ERROR');
+    const unexpected_error_occured = this.translationService.translate('UNEXPECTED_ERROR_OCCURED');
+    const wrong_email_or_password = this.translationService.translate('WRONG_EMAIL_OR_PASSWORD');
+    
+    try {
+      // Get form values
+      const formData = this.contactForm.value;
+      console.log('Great: ', formData);
 
+      this.contactService.contact(formData).subscribe({
+        next: async (response: any) => {
+          this.isLoadingM= false;
+          
+          if (response && response.success == true) {
+            this.contactForm.reset(); // Reset the form
+              await this.showToast(message, 'success');
+            // if a user finished all the application process
+          } else {
+            if(response?.message == "Message not sent!"){
+              this.markFormGroupTouched();
+              await this.showToast(message_not_sent, 'danger');
+            } else {  
+              this.markFormGroupTouched();
+              await this.showToast(unexpected_error, 'danger');
+            }
+          }
+        },
+        error: async (error: any) => {
+          this.isLoadingM= false;
+          console.error('Login error:', error);
+          
+          await this.showToast(unexpected_error, 'danger');
+        }
+      });
+      
+    } catch (error) {
+      this.isLoadingM= false;
+      console.error(unexpected_error, error);
+      
+      await this.showToast(unexpected_error_occured, 'danger');
+    }
+
+  }
+
+  async onSubmit(){
+    this.isLoading = true;
+    this.isLoadingSub= true;
+
+    if (this.subscribeForm.invalid) {
+      this.showToast('Please fill in all required fields correctly', 'warning');
+      this.markFormGroupTouched();
+      return;
+    }
+        
+    const message = this.translationService.translate('SUBSCRIBED');
+    const login_failed_and = this.translationService.translate('LOGIN_FAILED_AND');
+    const email_registered= this.translationService.translate('EMAIL_SUBSCRIBED_ALREADY');
+    const login_failed = this.translationService.translate('LOGIN_FAILED');
+    const unexpected_error = this.translationService.translate('UNEXPECTED_ERROR');
+    const unexpected_error_occured = this.translationService.translate('UNEXPECTED_ERROR_OCCURED');
+    const wrong_email_or_password = this.translationService.translate('WRONG_EMAIL_OR_PASSWORD');
+    
+    try {
+      // Get form values
+      const formData = this.subscribeForm.value;
+      console.log('Great: ', formData);
+
+      this.newsletterService.addNewsletter(formData).subscribe({
+        next: async (response: any) => {
+          this.isLoading = false;
+          this.isLoadingSub= false;
+          
+          if (response && response.success == true) {
+            this.subscribeForm.reset(); // Reset the form
+            await this.showToast(message, 'success');
+            // if a user finished all the application process
+          } else {
+            if(response?.message == "Email address already subscribed to the newsletter"){
+              this.markFormGroupTouched();
+              await this.showToast(email_registered, 'danger');
+            } else {  
+              this.markFormGroupTouched();
+              await this.showToast(unexpected_error, 'danger');
+            }
+          }
+        },
+        error: async (error: any) => {
+          this.isLoading = false;
+          this.isLoadingSub= false;
+          console.error('Login error:', error);
+          
+          await this.showToast(unexpected_error, 'danger');
+        }
+      });
+      
+    } catch (error) {
+      this.isLoading = false;
+      this.isLoadingSub= false;
+      console.error(unexpected_error, error);
+      
+      await this.showToast(unexpected_error_occured, 'danger');
+    }
+  }
+
+  async signout(){
+    await Preferences.remove({ key: 'enriqueId' });
+    this.enriqueId = null;
+    this.cdr.detectChanges();
+    this.router.navigate(['/tabs/contact']);
+  }
+
+
+  public lgActionSheetButtons = [
+    {
+      text: this.translationService.translate('LOGOUT'),
+      icon: 'power-outline',
+      handler: () => {
+        this.signout();
+      }
+    },
+    {
+      text: this.translationService.translate('CANCEL'),
+      role: 'cancel',
+      data: {
+        action: 'cancel',
+      },
+    },
+  ];
+
+  
+  public smActionSheetButtons = [
+    {
+      text: this.translationService.translate('LOGOUT'),
+      icon: 'power-outline',
+      handler: () => {
+        this.signout();
+      }
+    },
+    {
+      text: this.translationService.translate('CANCEL'),
+      role: 'cancel',
+      data: {
+        action: 'cancel',
+      },
+    },
+  ];
+
+  async notLoggedIn(){
+    const message = this.translationService.translate('PLEASE_LOGIN_TO_BOOK');
+    await this.showToast(message, 'warning');
   }
 
     // enable back space
