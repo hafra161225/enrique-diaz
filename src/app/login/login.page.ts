@@ -6,7 +6,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent,
           ActionSheetController, IonButton, IonSelect, 
           IonSelectOption, IonLabel, IonText, IonAvatar,
           ToastController, IonInputPasswordToggle, IonFab, 
-          IonFabButton  } from '@ionic/angular/standalone';
+          IonFabButton, IonInput  } from '@ionic/angular/standalone';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { addIcons } from 'ionicons';
@@ -22,7 +22,7 @@ import { Login } from '../services/login';
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA],
+  encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [CommonModule, IonHeader, IonToolbar, 
             IonImg, IonIcon, IonTitle, IonContent, 
@@ -30,8 +30,8 @@ import { Login } from '../services/login';
             IonItem, IonMenuToggle, IonButton, IonSelect,
             IonSelectOption, IonLabel, IonText, IonAvatar,
             ReactiveFormsModule, FormsModule, IonInputPasswordToggle, 
-            IonFab, IonFabButton],
-  encapsulation: ViewEncapsulation.None,
+            IonFab, IonFabButton, IonInput],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LoginPage implements OnInit {
   loginForm!: FormGroup;
@@ -50,6 +50,10 @@ export class LoginPage implements OnInit {
               addIcons(allIcons);
               this.initLanguagePreference();
               this.translationService.loadLanguage(this.selectedLang);
+              this.loginForm = this.fb.group({
+                email: ['', [Validators.required, Validators.email]],
+                password: ['', [Validators.required, Validators.minLength(6)]]
+              });
             }
 
   async initLanguagePreference() {
@@ -87,10 +91,6 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
   }
 
   async onLogin() {

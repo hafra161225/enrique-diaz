@@ -7,7 +7,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent,
           IonList, IonItem, IonIcon, IonMenuToggle, 
           ActionSheetController, IonButton, IonSelect, 
           IonSelectOption, IonLabel, IonText, IonAvatar,
-          ToastController, IonActionSheet } from '@ionic/angular/standalone';
+          ToastController, IonActionSheet, IonInput } from '@ionic/angular/standalone';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { addIcons } from 'ionicons';
@@ -32,7 +32,7 @@ import { Newsletter } from '../services/newsletter';
             IonItem, IonMenuToggle, IonButton, IonSelect,
             IonSelectOption, IonLabel, IonText, IonAvatar,
             RouterLink, ReactiveFormsModule, FormsModule,
-            IonActionSheet],
+            IonActionSheet, IonInput],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePage implements AfterViewInit {

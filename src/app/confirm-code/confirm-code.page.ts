@@ -6,7 +6,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent,
           ActionSheetController, IonButton, IonSelect, 
           IonSelectOption, IonLabel, IonText, IonAvatar,
           ToastController, IonInputPasswordToggle, IonFab, 
-          IonFabButton, IonInputOtp  } from '@ionic/angular/standalone';
+          IonFabButton, IonInputOtp, IonInput  } from '@ionic/angular/standalone';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { addIcons } from 'ionicons';
@@ -30,7 +30,7 @@ import { ConfirmCode } from '../services/confirm-code';
             IonItem, IonMenuToggle, IonButton, IonSelect,
             IonSelectOption, IonLabel, IonText, IonAvatar,
             ReactiveFormsModule, FormsModule, IonInputPasswordToggle, 
-            IonFab, IonFabButton, IonInputOtp],
+            IonFab, IonFabButton, IonInputOtp, IonInput],
   encapsulation: ViewEncapsulation.None,
 })
 export class ConfirmCodePage implements OnInit {

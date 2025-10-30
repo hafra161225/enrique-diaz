@@ -6,7 +6,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent,
           IonList, IonItem, IonIcon, IonMenuToggle, 
           ActionSheetController, IonButton, IonSelect, 
           IonSelectOption, IonLabel, IonText, IonAvatar,
-          ToastController } from '@ionic/angular/standalone';
+          ToastController, IonInput } from '@ionic/angular/standalone';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { addIcons } from 'ionicons';
@@ -31,7 +31,7 @@ import { Contact } from '../services/contact';
             IonMenu, IonButtons, IonMenuButton, IonList, 
             IonItem, IonMenuToggle, IonButton, IonSelect,
             IonSelectOption, IonLabel, IonText, IonAvatar,
-            ReactiveFormsModule, FormsModule],
+            ReactiveFormsModule, FormsModule, IonInput],
   encapsulation: ViewEncapsulation.None, // Add this
 })
 export class ContactPage implements AfterViewInit {

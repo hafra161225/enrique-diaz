@@ -6,7 +6,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent,
           ActionSheetController, IonButton, IonSelect, 
           IonSelectOption, IonLabel, IonText, IonAvatar,
           ToastController, IonInputPasswordToggle, IonFab, 
-          IonFabButton  } from '@ionic/angular/standalone';
+          IonFabButton, IonInput  } from '@ionic/angular/standalone';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { addIcons } from 'ionicons';
@@ -30,7 +30,7 @@ import { ForgotPassword } from '../services/forgot-password';
             IonItem, IonMenuToggle, IonButton, IonSelect,
             IonSelectOption, IonLabel, IonText, IonAvatar,
             ReactiveFormsModule, FormsModule, IonInputPasswordToggle, 
-            IonFab, IonFabButton],
+            IonFab, IonFabButton, IonInput],
   encapsulation: ViewEncapsulation.None,
 })
 export class ForgotPasswordPage implements OnInit {

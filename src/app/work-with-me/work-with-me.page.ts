@@ -9,7 +9,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent,
           ActionSheetController, IonButton, IonSelect, 
           IonSelectOption, IonLabel, IonText, IonAvatar,
           IonSegment, IonSegmentButton, IonSegmentContent, IonSegmentView,
-          IonAccordion, IonAccordionGroup, ToastController } from '@ionic/angular/standalone';
+          IonAccordion, IonAccordionGroup, ToastController, IonInput } from '@ionic/angular/standalone';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { addIcons } from 'ionicons';
@@ -33,7 +33,7 @@ import { Newsletter } from '../services/newsletter';
             IonSelectOption, IonLabel, IonText, IonAvatar,
             IonSegment, IonSegmentButton, IonSegmentContent, 
             IonSegmentView, IonAccordion, IonAccordionGroup,
-            RouterLink, ReactiveFormsModule,],
+            RouterLink, ReactiveFormsModule, IonInput],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA],
 })
 export class WorkWithMePage implements AfterViewInit {

@@ -7,7 +7,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent,
           IonSelectOption, IonLabel, IonText, IonAvatar,
           IonThumbnail, IonCard, IonCardHeader, IonCardTitle, 
           IonChip, IonCardContent, IonRippleEffect, IonBadge,
-          ToastController } from '@ionic/angular/standalone';
+          ToastController, IonInput } from '@ionic/angular/standalone';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { addIcons } from 'ionicons';
@@ -33,7 +33,7 @@ import { Newsletter } from '../services/newsletter';
             IonSelectOption, IonLabel, IonText, IonAvatar, 
             IonThumbnail, IonCard, IonCardHeader, IonCardTitle, 
             IonChip, IonCardContent, IonRippleEffect, IonBadge,
-            ReactiveFormsModule],
+            ReactiveFormsModule, IonInput],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PodcastsPage implements AfterViewInit {

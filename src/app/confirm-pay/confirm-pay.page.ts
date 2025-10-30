@@ -7,7 +7,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent,
           ActionSheetController, IonButton, IonSelect, 
           IonSelectOption, IonLabel, IonText, IonAvatar,
           IonDatetime, IonGrid, IonRow, IonCol,ToastController,
-          IonTextarea } from '@ionic/angular/standalone';
+          IonTextarea, IonInput } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { Browser } from '@capacitor/browser';
 import * as allIcons from 'ionicons/icons';
@@ -17,7 +17,7 @@ import { TranslationService } from '../services/translation-service';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PaymentService } from '../services/payment-service';
 import { Capacitor } from '@capacitor/core';
-import { SafePipe  } from '../pipes/safe-pipe';
+// import { SafePipe  } from '../pipes/safe-pipe';
 import { loadStripe } from '@stripe/stripe-js';
 import { FinalizePaymentService } from '../services/finalize-payment';
 
@@ -34,7 +34,7 @@ import { FinalizePaymentService } from '../services/finalize-payment';
             IonSelectOption, IonLabel, IonText, IonAvatar,
             RouterLink, IonDatetime, IonGrid, IonRow, IonCol,
             ReactiveFormsModule, FormsModule, IonAvatar, 
-            IonTextarea, SafePipe ],
+            IonTextarea, IonInput ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ConfirmPayPage implements OnInit {

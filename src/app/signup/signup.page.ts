@@ -6,7 +6,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent,
           ActionSheetController, IonButton, IonSelect, 
           IonSelectOption, IonLabel, IonText, IonAvatar,
           ToastController, IonInputPasswordToggle, IonFab, 
-          IonFabButton  } from '@ionic/angular/standalone';
+          IonFabButton, IonInput } from '@ionic/angular/standalone';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { addIcons } from 'ionicons';
@@ -29,7 +29,7 @@ import { Signup } from '../services/signup';
             IonItem, IonMenuToggle, IonButton, IonSelect,
             IonSelectOption, IonLabel, IonText, IonAvatar,
             ReactiveFormsModule, FormsModule, IonInputPasswordToggle, 
-            IonFab, IonFabButton],
+            IonFab, IonFabButton, IonInput],
   encapsulation: ViewEncapsulation.None,
 })
 export class SignupPage implements OnInit {
@@ -49,6 +49,11 @@ export class SignupPage implements OnInit {
               addIcons(allIcons);
               this.initLanguagePreference();
               this.translationService.loadLanguage(this.selectedLang);
+              this.loginForm = this.fb.group({
+                name: ['', [Validators.required]],
+                email: ['', [Validators.required, Validators.email]],
+                password: ['', [Validators.required, Validators.minLength(6)]]
+              });
             }
 
   async initLanguagePreference() {
@@ -86,11 +91,6 @@ export class SignupPage implements OnInit {
   }
 
   ngOnInit() {
-    this.loginForm = this.fb.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
   }
 
   async onLogin() {
