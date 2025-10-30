@@ -505,10 +505,12 @@ export class ConfirmPayPage implements OnInit {
             // if a user finished all the application process
           } else {
             if(response?.message == "Message not sent!"){
+              console.log('Bemoaning failed:', response);
               this.paymentFailed();
               this.markFormGroupTouched();
               await this.showToast(message_not_sent, 'danger');
             } else {  
+              console.log('Bemoaning failed:', response);
               this.paymentFailed();
               this.markFormGroupTouched();
               await this.showToast(unexpected_error, 'danger');
