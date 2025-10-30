@@ -224,6 +224,12 @@
     "EMAIL_SUBSCRIBED_ALREADY" : "Email address already subscribed to the newsletter.",
     "MESSAGE_NOT_SENT" : "Message not sent!",
     "PAY" : "Pay",
-    "PAYING" : "Paying..."
+    "PAYING" : "Paying...",
+    "CARD_HOLDER" : "Cardholder Name",
+    "CARD_NUMBER" : "Card Number",
+    "CARD_EXPIRY" : "Expiry (MM/YY)",
+    "PAYMENT_SUCCESS": "Payment successful! Your session is booked.",
+    "PAYMENT_FAILED": "Payment failed! Please try again.",
+    "OK" : "OK"
 
 }

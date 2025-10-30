@@ -222,6 +222,12 @@
     "EMAIL_SUBSCRIBED_ALREADY" : "La dirección de correo electrónico ya está suscrita al boletín.",
     "MESSAGE_NOT_SENT" : "¡Mensaje no enviado!",
     "PAY" : "Pagar",
-    "PAYING" : "Pagando..."
+    "PAYING" : "Pagando...",
+    "CARD_HOLDER": "Nombre del titular",
+    "CARD_NUMBER" : "Número de tarjeta",
+    "CARD_EXPIRY" : "Vencimiento (MM/AA)",
+    "PAYMENT_SUCCESS": "¡Pago exitoso! Tu sesión ha sido reservada.",
+    "PAYMENT_FAILED": "¡Error en el pago! Por favor, inténtelo de nuevo.",
+    "OK": "Aceptar"
 
 }

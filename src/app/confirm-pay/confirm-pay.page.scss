@@ -1104,3 +1104,62 @@ ion-datetime {
     border-radius: 25px;
 }
 
+.custom-modal {
+  --width: 100%;
+  --height: 100%;
+  --max-width: 600px;  // limit width on large screens
+  --max-height: 80vh;  // limit height on large screens
+  --border-radius: 16px;
+  --margin-top: auto;
+  --margin-bottom: auto;
+  --margin-start: auto;
+  --margin-end: auto;
+  --box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+@media (max-width: 768px) {
+  .custom-modal {
+    --width: 100%;
+    --height: 100%;
+    --max-width: 100%;
+    --max-height: 100%;
+    --border-radius: 0;
+  }
+}
+
+// form properties
+ion-item {
+    margin-bottom: 16px;
+    --background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+}
+
+ion-label, ion-input, ion-textarea {
+    color: #fff !important;
+}
+
+.input-item {
+  margin-bottom: 1rem;
+  --border-color: rgba(255, 255, 255, 0.3);
+  --highlight-color-focused: #ffffff;
+  color: #fff;
+}
+
+.login-btn {
+  margin-top: 1rem;
+  --background: rgba(37, 99, 235, 0.85);
+  --background-hover: rgba(37, 99, 235, 1);
+  --border-radius: 8px;
+}
+
+.success-content {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.success-gif {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 15px;
+}
+

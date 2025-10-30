@@ -139,3 +139,145 @@
   </div>
 
 </ion-content>
+
+<ion-modal [isOpen]="showPaymentModal" 
+            (didDismiss)="closePaymentModal()"
+            class="custom-modal">
+  <ion-header>
+    <ion-toolbar color="dark">
+      <ion-title>Secure Payment</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="closePaymentModal()">
+          <ion-icon name="close-circle-outline" size="medium"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-padding">
+    <form (ngSubmit)="onPaying()" [formGroup]="paymentForm" novalidate>
+      <ion-item class="input-item">
+        <ion-label position="stacked">{{ translationService.translate('CARD_HOLDER') }}</ion-label>
+        <ion-input
+          type="text"
+          formControlName="name"
+          autocomplete="name"
+          (ionInput)="onIonInput('name', $event)"
+          ngDefaultControl
+          required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="input-item">
+        <ion-label position="stacked">{{ translationService.translate('CARD_NUMBER') }}</ion-label>
+        <ion-input
+          type="text"
+          formControlName="number"
+          autocomplete="number"
+          maxlength="19"
+          (ionInput)="formatCardNumber($event)"
+          ngDefaultControl
+          required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="input-item">
+        <ion-label position="stacked">{{ translationService.translate('CARD_EXPIRY') }}</ion-label>
+        <ion-input
+          type="text"
+          formControlName="expiry"
+          placeholder="MM/YY"
+          maxlength="5"
+          (ionInput)="formatExpiry($event)"
+          ngDefaultControl
+          required>
+        </ion-input>
+      </ion-item>
+
+      <!-- CVC -->
+      <ion-item class="input-item">
+        <ion-label position="stacked">CVC</ion-label>
+        <ion-input
+          type="text"
+          formControlName="cvc"
+          maxlength="4"
+          ngDefaultControl
+          required>
+        </ion-input>
+      </ion-item>
+
+      <ion-button expand="block" type="submit" [disabled]="paymentForm.invalid" class="book-call">
+        <ion-icon name="card-outline"></ion-icon> &nbsp;
+        <span *ngIf="isLoadingP">{{ translationService.translate('PAYING') }}</span>
+        <span *ngIf="!isLoadingP">{{ translationService.translate('PAY') }}</span>
+      </ion-button>
+      
+    </form>
+  </ion-content>
+</ion-modal>
+
+<!-- Payment success modal -->
+<ion-modal [isOpen]="paymentSuccess" 
+            (didDismiss)="closePaymentSuccessModal()"
+            class="custom-modal">
+  <ion-header>
+    <ion-toolbar color="dark">
+      <ion-buttons slot="end">
+        <ion-button (click)="closePaymentSuccessModal()">
+          <ion-icon name="close-circle-outline" size="medium"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-padding">
+
+    <!-- Centered GIF -->
+    <div class="success-content">
+      <img src="../../assets/images/payment-success.gif" alt="success" class="success-gif"/>
+
+      <!-- Text Info -->
+      <h2>{{ translationService.translate('PAYMENT_SUCCESS') }}</h2>
+
+      <p><strong>Amount:</strong> {{ paidAmount | currency:'USD' }}</p>
+      <p><strong>Package:</strong> {{ packageNamed }}</p>
+      <p><strong>Date & Time:</strong> {{ reservationDate | date:'medium' }}</p>
+    </div>
+
+    <!-- OK Button -->
+    <ion-button expand="block" shape="round" (click)="closePaymentSuccessModal()">
+      {{ translationService.translate('OK') }}
+    </ion-button>
+
+  </ion-content>
+
+</ion-modal>
+
+<!-- Payment failure modal -->
+<ion-modal [isOpen]="paymentFailure" 
+            (didDismiss)="closePaymentFailedModal()"
+            class="custom-modal">
+  <ion-header>
+    <ion-toolbar color="dark">
+      <ion-buttons slot="end">
+        <ion-button (click)="closePaymentFailedModal()">
+          <ion-icon name="close-circle-outline" size="medium"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-padding">
+
+    <!-- Centered GIF -->
+    <div class="success-content">
+      <img src="../../assets/images/payment-failed.gif" alt="failure" class="success-gif"/>
+      <h2>{{ translationService.translate('PAYMENT_FAILED') }}</h2>
+    </div>
+
+    <!-- OK Button -->
+    <ion-button expand="block" shape="round" (click)="closePaymentFailedModal()">
+      {{ translationService.translate('OK') }}
+    </ion-button>
+
+  </ion-content>

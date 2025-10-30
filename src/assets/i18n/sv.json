@@ -222,6 +222,12 @@
     "EMAIL_SUBSCRIBED_ALREADY" : "E-postadressen är redan prenumererad på nyhetsbrevet.",
     "MESSAGE_NOT_SENT" : "Meddelande skickades inte!",
     "PAY" : "Betala",
-    "PAYING" : "Betalar..."
+    "PAYING" : "Betalar...",
+    "CARD_HOLDER": "Kortinnehavarens namn",
+    "CARD_NUMBER" : "Kortnummer",
+    "CARD_EXPIRY" : "Giltighet (MM/ÅÅ)",
+    "PAYMENT_SUCCESS" : "¡Pago exitoso! Tu sesión ha sido reservada.",
+    "PAYMENT_FAILED": "¡Error en el pago! Por favor, inténtelo de nuevo.",
+    "OK" : "OK"
 
 }
