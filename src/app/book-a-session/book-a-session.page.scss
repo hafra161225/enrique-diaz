@@ -1,21 +1,23 @@
 ion-header,
 ion-toolbar {
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: var(--color-bg) !important;
+  color: var(--color-text) !important;
   box-shadow: none;
   border-bottom: none;
 }
 
 ion-header .background,
 ion-toolbar .background {
-  background: transparent !important;
+  background: var(--color-bg) !important;
   box-shadow: none !important;
 }
 
 ion-header::part(background),
 ion-toolbar::part(background) {
-  background: transparent !important;
-  --background: transparent !important;
+  background: var(--color-bg) !important;
+  --background: var(--color-bg) !important;
 }
 
 .nav-actions {
@@ -24,8 +26,8 @@ ion-toolbar::part(background) {
   gap: 8px;
   margin-left: 16px;
   ion-button{
-    --border-color: #fff !important;
-    --color: #fff !important;
+    --border-color: var(--color-text) !important;
+    --color: var(--color-text) !important;
   }
 }
 
@@ -37,18 +39,18 @@ ion-toolbar::part(background) {
 .brand,
 .nav,
 .menu-btn {
-  background: transparent !important;
+  background: var(--color-bg) !important;
 }
 
 .container{
-  background: transparent !important;
+  background: var(--color-bg) !important;
 }
 
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: transparent !important;
+  background: var(--color-bg) !important;
 }
 
 .brand {
@@ -72,14 +74,14 @@ ion-toolbar::part(background) {
   align-items: center;
   gap: 0px;
   width: 90px;
-  color: white;
+  color: var(--color-text);
 }
 
 .flex{
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--color-text);
 }
 .lang-select-container {
   display: inline-flex;
@@ -89,7 +91,7 @@ ion-toolbar::part(background) {
 
 .lang-icon {
   font-size: 1.3em;
-  color: #ffffff;
+  color: var(--color-text);
 }
 
 ion-select.lang-select {
@@ -148,7 +150,7 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
   }
 }
 
-.nav a { color: inherit; text-decoration: none; }
+.nav a { color: var(--color-text); text-decoration: none; }
 .link { position: relative; }
 .link::after { content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .3s ease; }
 .link:hover::after { transform: scaleX(1); }
@@ -808,14 +810,16 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  background: var(--color-text);
+  color: var(--color-bg);
   text-decoration: none;
   transition: all 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.06);
 }
 
 .social-links a:hover {
-  background: #6366f1;
+  background: var(--ion-color-primary);
+  color: #fff;
   transform: translateY(-2px);
 }
 
@@ -853,17 +857,18 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 
 .footer-newsletter button {
   padding: 10px 16px;
-  background: #6366f1;
-  color: #ffffff;
+  background: #3a5199;
+  color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .footer-newsletter button:hover {
-  background: #4f46e5;
+  background: #3a5199;
+  opacity: 0.9;
 }
 
 .footer-bottom {

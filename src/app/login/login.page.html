@@ -1,8 +1,4 @@
 <ion-content [fullscreen]="true" class="landing ion-padding" id="main-content">
-  <!-- Background Decorations -->
-  <div class="bg-gradient"></div>
-  <div class="orb orb-1" data-anim="orb"></div>
-  <div class="orb orb-2" data-anim="orb"></div>
 
   <div class="login-wrapper">
         
@@ -44,7 +40,7 @@
         </ion-input>
       </ion-item>
 
-      <ion-button expand="block" type="submit" [disabled]="loginForm.invalid" class="login-btn">
+      <ion-button expand="block" shape="round" fill="outline" type="submit" [disabled]="loginForm.invalid" class="login-btn">
         <span *ngIf="isLoading">{{ translationService.translate('LOGGING_IN_BUTTON') }}</span>
         <span *ngIf="!isLoading">{{ translationService.translate('LOGIN_BUTTON') }}</span>
       </ion-button>

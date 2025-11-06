@@ -116,31 +116,26 @@
 
 <ion-content [fullscreen]="true" class="landing ion-padding" id="main-content">
   <!-- Background Decorations -->
-  <div class="bg-gradient"></div>
+  <!-- <div class="bg-gradient"></div>
   <div class="orb orb-1" data-anim="orb"></div>
-  <div class="orb orb-2" data-anim="orb"></div>
+  <div class="orb orb-2" data-anim="orb"></div> -->
 
-  <section class="hero hero-super container">
-    <div class="hero-grid">
-      <div class="hero-media" data-anim="fade-in" data-delay="0.05">
-        <div class="portrait" data-anim="float">
-          <img src="assets/enrique-life-coach.png" alt="Coach portrait" class="coach-photo" />
-        </div>
-      </div>
-      <div class="hero-copy">
+  <section class="hero-section">
+    <div class="hero-overlay">
+      <div class="hero-content">
         <h1 class="headline-xl">{{ translationService.translate('PERSONAL_COACHING') }}</h1>
-        <p class="subhead">{{ translationService.translate('SUBHEAD') }}</p>
-        <div class="signup" data-anim="reveal-up" data-delay="0.2">
-          <button (click)="gotoWorkWithMe()" class="btn">{{ translationService.translate('BOOK_APPOINTMENT') }}&nbsp;&nbsp;<ion-icon name="chevron-forward-circle-outline" size="medium"></ion-icon></button>
-        </div>
-        <div class="signup-message" [class.error]="signupError" *ngIf="signupMessage">
-          {{ signupMessage }}
+        <p class="hero-description">{{ translationService.translate('SUBHEAD') }}</p>
+        <div class="hero-cta" data-anim="reveal-up" data-delay="0.2">
+          <button (click)="gotoWorkWithMe()" class="cta-button">
+            {{ translationService.translate('BOOK_APPOINTMENT') }}
+            <ion-icon name="chevron-forward-circle-outline" size="medium"></ion-icon>
+          </button>
         </div>
       </div>
     </div>
-    <a class="scroll-down" aria-label="Scroll down" data-anim="fade-in" data-delay="0.3">
-      <ion-icon name="chevron-down-outline" color="black"></ion-icon>
-    </a>
+    <div class="scroll-indicator" data-anim="fade-in" data-delay="0.3">
+      <ion-icon name="chevron-down-outline"></ion-icon>
+    </div>
   </section>
 
     <!-- Manifesto -->

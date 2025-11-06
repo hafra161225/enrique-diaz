@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { loggedInGuard } from './guards/logged-in-guard';
 import { confirmCodeGuard } from './guards/confirm-code-guard';
 import { confirmSentCodeGuard } from './guards/confirm-sent-code-guard';
+import { adminLoggedGuard } from './guards/admin-logged-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'tabs/home', pathMatch: 'full' },
@@ -60,7 +61,8 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    loadComponent: () => import('./dashboard/dashboard.page').then( m => m.DashboardPage)
+    loadComponent: () => import('./dashboard/dashboard.page').then( m => m.DashboardPage),
+    canActivate: [adminLoggedGuard]
   },
   {
     path: 'confirm-code',
@@ -71,5 +73,20 @@ export const routes: Routes = [
     path: 'new-password',
     loadComponent: () => import('./new-password/new-password.page').then( m => m.NewPasswordPage),
     canActivate: [confirmSentCodeGuard]
+  },
+  {
+    path: 'appointments',
+    loadComponent: () => import('./appointments/appointments.page').then( m => m.AppointmentsPage),
+    canActivate: [adminLoggedGuard]
+  },
+  {
+    path: 'clients',
+    loadComponent: () => import('./clients/clients.page').then( m => m.ClientsPage),
+    canActivate: [adminLoggedGuard]
+  },
+  {
+    path: 'messages',
+    loadComponent: () => import('./messages/messages.page').then( m => m.MessagesPage),
+    canActivate: [adminLoggedGuard]
   },
 ];

@@ -1,21 +1,26 @@
+@import "../shared/styles/input-item";
+
 ion-header,
 ion-toolbar {
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  /* disable glass header effect */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: var(--color-bg) !important;
+  color: var(--color-text) !important;
   box-shadow: none;
   border-bottom: none;
 }
 
 ion-header .background,
 ion-toolbar .background {
-  background: transparent !important;
+  background: var(--color-bg) !important;
   box-shadow: none !important;
 }
 
 ion-header::part(background),
 ion-toolbar::part(background) {
-  background: transparent !important;
-  --background: transparent !important;
+  background: var(--color-bg) !important;
+  --background: var(--color-bg) !important;
 }
 
 .nav-actions {
@@ -24,8 +29,8 @@ ion-toolbar::part(background) {
   gap: 8px;
   margin-left: 16px;
   ion-button{
-    --border-color: #fff !important;
-    --color: #fff !important;
+    --border-color: rgba(0,0,0,0.12) !important;
+    --color: var(--color-text) !important;
   }
 }
 
@@ -37,18 +42,18 @@ ion-toolbar::part(background) {
 .brand,
 .nav,
 .menu-btn {
-  background: transparent !important;
+  background: var(--color-bg) !important;
 }
 
 .container{
-  background: transparent !important;
+  background: var(--color-bg) !important;
 }
 
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: transparent !important;
+  background: var(--color-bg) !important;
 }
 
 .brand {
@@ -72,14 +77,14 @@ ion-toolbar::part(background) {
   align-items: center;
   gap: 0px;
   width: 90px;
-  color: white;
+  color: var(--color-text);
 }
 
 .flex{
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--color-text);
 }
 .lang-select-container {
   display: inline-flex;
@@ -89,7 +94,7 @@ ion-toolbar::part(background) {
 
 .lang-icon {
   font-size: 1.3em;
-  color: #ffffff;
+  color: var(--color-text);
 }
 
 ion-select.lang-select {
@@ -107,20 +112,20 @@ ion-select.lang-select .select-text {
 
 // For alert interface (modal style)
 ion-alert .alert-radio-label {
-  color: #fff !important;
+  color: var(--color-text) !important;
 }
 
 // For action-sheet interface
 ion-action-sheet .action-sheet-button {
-  color: #fff !important;
+  color: var(--color-text) !important;
 }
 
 // For iOS mode, you may also want:
 ion-alert .alert-radio-label.sc-ion-alert-ios {
-  color: #fff !important;
+  color: var(--color-text) !important;
 }
 ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
-  color: #fff !important;
+  color: var(--color-text) !important;
 }
 
 @media (min-width: 640px) {
@@ -148,7 +153,7 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
   }
 }
 
-.nav a { color: inherit; text-decoration: none; }
+.nav a { color: var(--color-text); text-decoration: none; }
 .link { position: relative; }
 .link::after { content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .3s ease; }
 .link:hover::after { transform: scaleX(1); }
@@ -159,7 +164,7 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
   right: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  background: transparent;
+  background: var(--color-bg);
 }
 @media (min-width: 768px) {
   .menu-btn { display: none; }
@@ -219,7 +224,7 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 }
 
 .floating-cta { position: sticky; top: 16px; display: flex; justify-content: flex-end; padding-right: var(--app-gutter); z-index: 10; }
-.pill { background: #0f172a; color: #fff; padding: 10px 14px; border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+.pill { background: var(--color-bg); color: var(--color-text); padding: 10px 14px; border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
 .pill-dot { width: 14px; height: 14px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #ff7a7a, #ef4444); display: inline-block; }
 
 .scroll-down { width: 56px; height: 56px; border-radius: 999px; background: #fff; color: #111; display: inline-flex; align-items: center; justify-content: center; margin-top: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); text-decoration: none; }
@@ -277,13 +282,13 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 }
 
 .card {
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0,0,0,0.06);
   border-radius: 20px;
   padding: 24px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
-  backdrop-filter: blur(20px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  color: #1f2937;
+  background: var(--color-bg);
+  backdrop-filter: none;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+  color: var(--color-text);
   transition: all 0.3s ease;
   text-align: center;
 }
@@ -291,24 +296,24 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 .card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.15));
+  background: var(--color-bg);
 }
 
 .card h2 {
-  color: #ffffff;
+  color: var(--color-text);
   font-weight: 700;
   margin-bottom: 12px;
 }
 
 .card h3 {
-  color: #ffffff;
+  color: var(--color-text);
   font-weight: 700;
   margin-bottom: 12px;
   font-size: 1.1em;
 }
 
 .card p {
-  color: #ffffff;
+  color: var(--color-text);
   line-height: 1.6;
   font-weight: 500;
 }
@@ -335,13 +340,13 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 
 
 .card-service {
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0,0,0,0.06);
   border-radius: 20px;
   padding: 24px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
-  backdrop-filter: blur(20px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  color: #1f2937;
+  background: var(--color-bg);
+  backdrop-filter: none;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+  color: var(--color-text);
   transition: all 0.3s ease;
   position: relative;
   // text-align: center;
@@ -368,24 +373,24 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 .card-service:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.15));
+  background: var(--color-bg);
 }
 
 .card-service h2 {
-  color: #ffffff;
+  color: var(--color-text);
   font-weight: 700;
   margin-bottom: 12px;
 }
 
 .card-service h3 {
-  color: #ffffff;
+  color: var(--color-text);
   font-weight: 700;
   margin-bottom: 6px;
   font-size: 1.1em;
 }
 
 .card-service p {
-  color: #ffffff;
+  color: var(--color-text);
   line-height: 1.6;
   font-weight: 500;
 }
@@ -427,20 +432,25 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
   justify-content: space-between;
   margin-bottom: 1.5rem;
 }
-
-.section-title {
-  margin: 0;
+.service-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: none;
 }
 
-.see-all-link {
-  color: #2563eb;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 1rem;
-  transition: text-decoration 0.2s;
-}
-.see-all-link:hover {
-  text-decoration: underline;
+.service-overlay h3 {
+  color: var(--color-text);
+  font-weight: 700;
+  font-size: 1.2em;
+  text-align: center;
+  text-shadow: none;
 }
 /* Services Section */
 .services { padding: 56px 0; }
@@ -504,20 +514,19 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, #13132733, rgba(54, 43, 49, 0.2));
+  background: rgba(255, 255, 255, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  backdrop-filter: blur(2px);
+  backdrop-filter: none;
 }
 
 .service-overlay h3 {
-  color: #ffffff;
+  color: var(--color-text);
   font-weight: 700;
   font-size: 1.2em;
   text-align: center;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: none;
 }
 
 /* Service background images */
@@ -551,10 +560,10 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
   position: relative;
   padding: 24px;
   border-radius: 20px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.15));
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  background: var(--color-bg);
+  backdrop-filter: none;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
   margin: 0;
   transition: all 0.3s ease;
 }
@@ -571,14 +580,14 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
   top: -10px;
   left: 20px;
   font-size: 4em;
-  color: #ffffff;
+  color: var(--color-muted);
   font-weight: 700;
   line-height: 1;
   opacity: 0.3;
 }
 
 .benefit-quote p {
-  color: #ffffff;
+  color: var(--color-text);
   font-size: 1.1em;
   line-height: 1.6;
   font-weight: 500;
@@ -608,7 +617,7 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 .about-content p {
   font-size: 1.1em;
   line-height: 1.7;
-  color: #ffffff;
+  color: var(--color-text);
 }
 
 /* Newsletter Section */
@@ -621,7 +630,7 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 
 .newsletter-content p {
   margin-bottom: 24px;
-  color: #ffffff;
+  color: var(--color-text);
   font-size: 1.1em;
 }
 
@@ -635,7 +644,7 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 .newsletter-form input {
   flex: 1;
   padding: 12px 16px;
-  border: 2px solid #e5e7eb;
+  border: 1px solid rgba(0,0,0,0.06);
   border-radius: 12px;
   font-size: 16px;
   transition: border-color 0.3s ease;
@@ -643,7 +652,7 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 
 .newsletter-form input:focus {
   outline: none;
-  border-color: #6366f1;
+  border-color: #3a5199;
 }
 
 .newsletter-form .btn {
@@ -674,8 +683,8 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
   --border-radius: 50%;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #6366f1;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  border: 3px solid #3a5199;
+  box-shadow: 0 4px 12px rgba(58, 81, 153, 0.3);
 }
 
 /* --- Star Rating --- */
@@ -708,10 +717,10 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 .testimonial-slide {
   display: none;
   padding: 40px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  background: var(--color-bg);
+  backdrop-filter: none;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
   text-align: center;
 }
 
@@ -728,20 +737,20 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 .testimonial-content p {
   font-size: 1.3em;
   line-height: 1.6;
-  color: #ffffff;
+  color: var(--color-text);
   font-style: italic;
   margin-bottom: 24px;
 }
 
 .testimonial-author strong {
   display: block;
-  color: #ffffff;
+  color: var(--color-text);
   font-size: 1.1em;
   margin-bottom: 4px;
 }
 
 .testimonial-author span {
-  color: #ffffff;
+  color: var(--color-muted);
   font-size: 0.9em;
 }
 
@@ -756,9 +765,9 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 2px solid #6366f1;
+  border: 2px solid #3a5199;
   background: transparent;
-  color: #6366f1;
+  color: #3a5199;
   font-size: 24px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -768,16 +777,17 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 }
 
 .slider-btn:hover {
-  background: #6366f1;
+  background: #3a5199;
   color: white;
   transform: scale(1.1);
 }
 
 /* Enhanced Footer */
 .footer { 
-  background: #1f2937; 
-  color: #ffffff; 
+  background: var(--color-bg);
+  color: var(--color-text);
   padding: 48px 0 24px; 
+  border-top: 1px solid rgba(0,0,0,0.06);
 }
 
 .footer-content {
@@ -795,7 +805,7 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 
 
 .footer-section h3, .footer-section h4 {
-  color: #ffffff;
+  color: var(--color-text);
   margin-bottom: 16px;
 }
 
@@ -810,7 +820,7 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 }
 
 .footer-section p {
-  color: #d1d5db;
+  color: var(--color-muted);
   line-height: 1.6;
   margin-bottom: 16px;
 }
@@ -827,14 +837,16 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  background: var(--color-text);
+  color: var(--color-bg);
   text-decoration: none;
   transition: all 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.06);
 }
 
 .social-links a:hover {
-  background: #6366f1;
+  background: var(--ion-color-primary);
+  color: #fff;
   transform: translateY(-2px);
 }
 
@@ -846,7 +858,7 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 }
 
 .contact-info ion-icon {
-  color: #6366f1;
+  color: #3a5199;
   font-size: 1.2em;
 }
 
@@ -859,30 +871,31 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 .footer-newsletter input {
   flex: 1;
   padding: 10px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0,0,0,0.06);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  background: var(--color-bg);
+  color: var(--color-text);
   font-size: 14px;
 }
 
 .footer-newsletter input::placeholder {
-  color: #9ca3af;
+  color: var(--color-muted);
 }
 
 .footer-newsletter button {
   padding: 10px 16px;
-  background: #6366f1;
-  color: #ffffff;
+  background: #3a5199;
+  color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .footer-newsletter button:hover {
-  background: #4f46e5;
+  background: #3a5199;
+  opacity: 0.9;
 }
 
 .footer-bottom {
@@ -890,7 +903,7 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
   align-items: center;
   justify-content: space-between;
   padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(0,0,0,0.06);
   flex-wrap: wrap;
   gap: 16px;
 }
@@ -901,13 +914,13 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 }
 
 .footer-links a {
-  color: #d1d5db;
+  color: var(--color-muted);
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .footer-links a:hover {
-  color: #6366f1;
+  color: #3a5199;
 }
 
 @media (max-width: 767px) {
@@ -927,7 +940,7 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 
 /* Mobile adjustments */
 @media (max-width: 639px) {
-  .header-toolbar { --min-height: 50px; --background: transparent; background: transparent;}
+  .header-toolbar { --min-height: 50px; --background: var(--color-bg); background: var(--color-bg);}
   .hero { text-align: left; }
   .hero-cta { flex-wrap: wrap; }
 }
@@ -948,25 +961,17 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 
 /* Coaching Landing Styles */
 .bg-gradient {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(1200px 600px at 80% -10%, rgba(99,102,241,0.35), transparent 60%),
-              radial-gradient(900px 500px at 10% 20%, rgba(236,72,153,0.35), transparent 60%);
-  filter: blur(40px);
-  pointer-events: none;
-  z-index: -1;
+  display: none;
 }
 
-.orb { position: absolute; width: 200px; height: 200px; border-radius: 999px; filter: blur(10px); opacity: 0.5; }
-.orb-1 { top: 140px; right: -60px; background: #818cf8; }
-.orb-2 { bottom: 200px; left: -40px; background: #f472b6; }
+.orb { display: none; }
 
 .hero-stats { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 18px; }
 @media (min-width: 640px) { .hero-stats { grid-template-columns: repeat(3, max-content); gap: 24px; } }
 .stat strong { font-weight: 800; }
 
 .programs { padding: 56px 0; }
-.glass { backdrop-filter: blur(8px); background: rgba(255,255,255,0.65); border: 1px solid rgba(255,255,255,0.7); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+.glass { backdrop-filter: none; background: var(--color-bg); border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 6px 18px rgba(2,6,23,0.06); }
 
 .about { padding: 56px 0; }
 .about-inner { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: center; }
@@ -1010,7 +1015,7 @@ ion-action-sheet .action-sheet-button.sc-ion-action-sheet-ios {
 .nav a {
   position: relative;
   display: inline-block;
-  color: white;
+  color: var(--color-text);
   padding: 8px 0;
   text-decoration: none;
   transition: color 0.3s ease; // smooth text color transition
@@ -1042,32 +1047,32 @@ ion-segment-view {
 // faqs section
 /* Make the accordion group transparent */
 .faqs {
-  --background: transparent; /* Removes default background */
-  background: transparent;
+  --background: var(--color-bg); /* Use main background */
+  background: var(--color-bg);
   box-shadow: none;
 }
 
 /* Make individual accordions transparent */
 .faqs ion-accordion {
-  --background: rgba(255, 255, 255, 0.05); /* slight transparency for readability */
-  background: rgba(255, 255, 255, 0.05);
+  --background: var(--color-bg);
+  background: var(--color-bg);
   box-shadow: none;
-  border: 1px solid rgba(255, 255, 255, 0.1); /* subtle border */
+  border: 1px solid rgba(0,0,0,0.06); /* subtle border */
   border-radius: 12px;
   margin-bottom: 12px;
 }
 
 /* Accordion header styling */
 .faqs ion-accordion ion-item {
-  --background: transparent;
-  background: transparent;
-  color: #ffffff; /* Adjust text color for contrast */
+  --background: var(--color-bg);
+  background: var(--color-bg);
+  color: var(--color-text); /* Adjust text color for contrast */
 }
 
 /* Accordion content styling */
 .faqs ion-accordion .ion-padding {
-  background: transparent;
-  color: #ffffff; /* Ensure content text is readable */
+  background: var(--color-bg);
+  color: var(--color-text); /* Ensure content text is readable */
 }
 
 // contact section
@@ -1075,6 +1080,7 @@ ion-segment-view {
 .contact-header {
   padding: 0 16px 24px 16px; /* top 0, horizontal 16px, bottom 24px */
   text-align: center;
+  color: black !important;
 
   @media (min-width: 768px) {
     padding-left: 60px; /* keep extra left padding on larger screens */
@@ -1096,46 +1102,46 @@ ion-segment-view {
   }
 }
 
-/* Blur card style */
+/* Blur card style (converted to light theme) */
 .card-blur {
-    background: rgba(255, 255, 255, 0.05); /* semi-transparent */
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: var(--color-bg);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     border-radius: 20px;
     padding: 16px;
     @media (min-width: 768px) {
         padding: 24px;
     }
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    color: #fff;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+    color: var(--color-text);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     /* Form spacing */
     ion-item {
-    margin-bottom: 16px;
-    --background: rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
+      margin-bottom: 16px;
+      --background: var(--color-bg);
+      border-radius: 12px;
     }
 
     ion-input, ion-textarea {
-    color: #fff;
+      color: var(--color-text);
     }
 
     ion-button {
-    --border-radius: 50px;
-    --background: #6366f1;
-    color: #fff;
-    font-weight: 600;
+      --border-radius: 50px;
+      --background: #3a5199;
+      color: #fff;
+      font-weight: 600;
     }
 }
 
 .card-blur:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 30px rgba(2,6,23,0.08);
 }
 
 .card-blur h3 {
   margin-bottom: 16px;
-  color: #fff;
+  color: var(--color-text);
   font-weight: 700;
 }
 
@@ -1156,17 +1162,17 @@ ion-segment-view {
 .business-hours {
   padding: 20px;
   border-radius: 20px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
-  backdrop-filter: blur(20px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  color: #ffffff;
+  background: var(--color-bg);
+  backdrop-filter: none;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+  color: var(--color-text);
   margin-top: 24px;
 
   h3 {
     margin-bottom: 16px;
     font-weight: 700;
     font-size: 1.2rem;
-    color: #fff;
+    color: var(--color-text);
   }
 }
 
@@ -1174,7 +1180,7 @@ ion-segment-view {
   display: flex;
   justify-content: space-between;
   padding: 8px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
 
   &:last-child {
     border-bottom: none;
@@ -1186,7 +1192,7 @@ ion-segment-view {
   }
 
   .hours {
-    color: #f1f1f1;
+    color: black;
     font-weight: 600;
   }
 }

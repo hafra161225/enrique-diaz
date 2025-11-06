@@ -18,6 +18,35 @@
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
 
+/* Action Sheet Styles */
+ion-action-sheet {
+  --background: white !important;
+  
+  .action-sheet-group {
+    background: white !important;
+  }
+
+  .action-sheet-title {
+    color: black !important;
+    font-weight: 600 !important;
+  }
+
+  .action-sheet-button {
+    color: black !important;
+    font-weight: 500 !important;
+    background: white !important;
+  }
+
+  .action-sheet-button.action-sheet-cancel {
+    color: var(--ion-color-primary) !important;
+    font-weight: 600 !important;
+  }
+
+  .action-sheet-button:hover {
+    background: rgba(0, 0, 0, 0.04) !important;
+  }
+}
+
 /* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
@@ -43,6 +72,7 @@
   --color-text: #0a0a0a;
   --color-muted: #6b7280;
   --color-bg: #ffffff;
+  --ion-color-primary: #3a5199;
 }
 
 html, body, ion-app, ion-content {
@@ -84,3 +114,59 @@ html, body, ion-app, ion-content {
 .btn:hover {
   filter: brightness(1.05);
 }
+
+/* Override glass-like styles app-wide: force white background and black text
+   This neutralizes transparent/backdrop-filter styles used on some pages so
+   the entire app shows a plain white background with black text. */
+ion-app, ion-content, ion-page, .ion-page, .app-root, html, body {
+  background: var(--color-bg) !important;
+  color: var(--color-text) !important;
+  --background: var(--color-bg) !important;
+}
+
+/* Disable backdrop-filter and semi-transparent backgrounds globally so any
+   glass effect defined in page scss is neutralized. Keep this narrow to
+   avoid breaking intentional visuals (uses !important because many pages
+   set inline or strongly-specific rules). */
+* {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Ensure form controls, cards and headers inherit the black text color */
+ion-card, ion-toolbar, ion-item, ion-label, ion-input, .card, .pill {
+  color: var(--color-text) !important;
+  background: var(--color-bg) !important;
+}
+
+/* Force black text in nav links and toolbar items */
+.nav a, 
+ion-toolbar *, 
+ion-header *,
+.nav-actions *,
+ion-toolbar .nav a,
+ion-toolbar ion-button,
+ion-toolbar ion-title {
+  color: var(--color-text) !important;
+  --color: var(--color-text) !important;
+}
+
+/* Override any white text in nav items */
+ion-toolbar,
+ion-toolbar ion-button,
+.nav a,
+.nav-actions ion-button {
+  --color: var(--color-text) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-text) !important;
+  --border-color: var(--color-text) !important;
+}
+
+/* Ensure brand logo has dark background */
+.brand {
+  .brand-logo {
+    filter: invert(1) !important;
+    background: var(--color-text) !important;
+  }
+}
+

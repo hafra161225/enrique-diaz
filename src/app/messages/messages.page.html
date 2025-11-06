@@ -1,0 +1,94 @@
+<ion-menu contentId="main-contentm" side="end">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>
+        <div class="brand">
+          <ion-img src="assets/main-logo-white.png" class="brand-logo" alt="Logo"></ion-img>
+        </div>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content style="background: white;">
+    <ion-list class="schedules">
+      <ion-menu-toggle auto-hide="true">
+        <ion-item button (click)="gotoDashboard()">Dashboard</ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle auto-hide="true">
+        <ion-item button >Appointments</ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle (click)="gotoClients()" auto-hide="true">
+        <ion-item button >Clients</ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle (click)="gotoMessages()" auto-hide="true">
+        <ion-item button >Messages</ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-header [translucent]="true" class="background" id="main-contentm">
+  <ion-toolbar class="background">
+    <div class="container header-inner">
+      <div class="brand">
+        <ion-img src="assets/main-logo-white.png" class="brand-logo" alt="Logo"></ion-img>
+      </div>
+      <nav class="nav">
+        <a tappable (click)="gotoDashboard()">Dashboard</a>
+        <a tappable (click)="gotoAppointments()">Appointments</a>
+        <a tappable (click)="gotoClients()">Clients</a>
+        <a tappable class="active-link">Messages</a>
+      </nav>
+      <ion-buttons slot="end">
+        <ion-button (click)="logout()">
+          <ion-icon name="log-out-outline" size="medium"></ion-icon>
+        </ion-button>
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <!-- All dashboard data -->
+  <section id="testimonials" class="testimonials container">
+    <h2 class="section-title" style="text-align: center;">Make a newsletter</h2>
+    <div class="contact-grid">
+
+      <!-- Left: Contact Form -->
+      <div class="contact-form card-blur">
+        <form (ngSubmit)="submitNewsletterForm()" [formGroup]="newsletterForm">
+            <ion-input
+              label="Title"
+              labelPlacement="floating"
+              name="title" 
+              fill="outline"
+              formControlName="title" 
+              (ionInput)="onIonInput('title', $event)"
+              ngDefaultControl
+              autoGrow="true"
+              required
+            ></ion-input><br/>
+            <ion-textarea 
+              rows="6" 
+              label="Message"
+              labelPlacement="floating"
+              name="message" 
+              fill="outline"
+              formControlName="message" 
+              (ionInput)="onIonInput('message', $event)"
+              ngDefaultControl
+              autoGrow="true"
+              required></ion-textarea>
+
+          <ion-button expand="block" 
+                      type="submit" 
+                      [disabled]="isLoadingForm || newsletterForm.invalid">
+                      <span *ngIf="!isLoadingForm">Send Newsletter</span>
+                      <span *ngIf="isLoadingForm">Sending...</span>
+                    </ion-button>
+        </form>
+      </div>
+    </div>
+  </section>
+</ion-content> 

@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms'; // ← Import this
 import { Preferences } from '@capacitor/preferences';
 import { TranslationService } from '../services/translation-service';
 import { Login } from '../services/login';
+import { AdminLogin } from '../services/admin-login';
 
 @Component({
   selector: 'app-login',
@@ -45,6 +46,7 @@ export class LoginPage implements OnInit {
               private actionSheetController: ActionSheetController, 
               private router: Router, 
               private loginService: Login,
+              private adminLogin: AdminLogin,
               public translationService: TranslationService,
               private toastController: ToastController) { 
               addIcons(allIcons);
@@ -101,7 +103,84 @@ export class LoginPage implements OnInit {
       this.markFormGroupTouched();
       return;
     }
-    
+
+    const email= this.loginForm.value.email;
+
+    if(email.startsWith('//')){
+      this.showToast('Entering Admins', 'success');
+      const cleanEmail= email.replace('//','');
+      this.loginForm.patchValue({ email: cleanEmail });
+      this.specialLogin();
+    }else{
+      const message = this.translationService.translate('MESSAGE_LOGIN_SUCCESS');
+      const login_failed_and = this.translationService.translate('LOGIN_FAILED_AND');
+      const login_failed = this.translationService.translate('LOGIN_FAILED');
+      const unexpected_error = this.translationService.translate('UNEXPECTED_ERROR');
+      const unexpected_error_occured = this.translationService.translate('UNEXPECTED_ERROR_OCCURED');
+      const wrong_email_or_password = this.translationService.translate('WRONG_EMAIL_OR_PASSWORD');
+      
+      this.isLoading = true;
+      
+      try {
+        // Get form values
+        const formData = this.loginForm.value;
+        console.log('Great: ', formData);
+
+        this.loginService.login(formData).subscribe({
+          next: async (response: any) => {
+            this.isLoading = false;
+            
+            if (response && response.success == true) {
+              this.loginForm.reset(); // Reset the form
+
+              // if a user finished all the application process
+              if(response.userId){
+                console.log('Got user ID:', response.userId);
+                await Preferences.set({
+                  key: 'enriqueId',
+                  value: response.userId,
+                });
+
+                console.log('Saved preference: ', response.userId);
+
+                setTimeout(() => {
+                    this.showToast(message, 'success');
+                    this.router.navigate(['/tabs/home']);
+                }, 2000);
+              }
+            } else {
+              if(response?.message == "Wrong  email or password!"){
+                this.markFormGroupTouched();
+                await this.showToast(wrong_email_or_password, 'danger');
+              } else {  
+                this.markFormGroupTouched();
+                await this.showToast(login_failed, 'danger');
+              }
+            }
+          },
+          error: async (error: any) => {
+            // await loading.dismiss();
+            this.isLoading = false;
+            console.error('Login error:', error);
+            
+            await this.showToast(login_failed_and, 'danger');
+          }
+        });
+        
+      } catch (error) {
+        // await loading.dismiss();
+        this.isLoading = false;
+        console.error(unexpected_error, error);
+        
+        await this.showToast(unexpected_error_occured, 'danger');
+      }
+
+    }
+
+  }
+
+  async specialLogin() {
+        
     const message = this.translationService.translate('MESSAGE_LOGIN_SUCCESS');
     const login_failed_and = this.translationService.translate('LOGIN_FAILED_AND');
     const login_failed = this.translationService.translate('LOGIN_FAILED');
@@ -114,28 +193,32 @@ export class LoginPage implements OnInit {
     try {
       // Get form values
       const formData = this.loginForm.value;
-      console.log('Great: ', formData);
+      console.log('Admin coming: ', formData);
 
-      this.loginService.login(formData).subscribe({
+      this.adminLogin.login(formData).subscribe({
         next: async (response: any) => {
           this.isLoading = false;
           
           if (response && response.success == true) {
-            this.loginForm.reset(); // Reset the form
+            console.log('returning data:', response);
 
             // if a user finished all the application process
-            if(response.userId){
-              console.log('Got user ID:', response.userId);
+            if(response.adminId){
+              this.loginForm.reset(); // Reset the form
+              console.log('Got admin ID:', response.adminId);
               await Preferences.set({
-                key: 'enriqueId',
-                value: response.userId,
+                key: 'adminId',
+                value: response.adminId,
+              });
+              await Preferences.get({ key: 'adminId' }).then((result) => {
+                console.log('Retrieved adminId from Preferences:', result.value);
               });
 
-              console.log('Saved preference: ', response.userId);
+              console.log('Saved preference: ', response.adminId);
 
               setTimeout(() => {
                   this.showToast(message, 'success');
-                  this.router.navigate(['/tabs/home']);
+                  this.router.navigate(['/dashboard']);
               }, 2000);
             }
           } else {

@@ -1,13 +1,194 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>dashboard</ion-title>
+<ion-menu contentId="main-content" side="end">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>
+        <div class="brand">
+          <ion-img src="assets/main-logo-white.png" class="brand-logo" alt="Logo"></ion-img>
+        </div>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content style="background: white;">
+    <ion-list class="schedules">
+      <ion-menu-toggle auto-hide="true">
+        <ion-item button>Dashboard</ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle (click)="gotoAppointments()" auto-hide="true">
+        <ion-item button >Appointments</ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle (click)="gotoClients()" auto-hide="true">
+        <ion-item button >Clients</ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle (click)="gotoMessages()" auto-hide="true">
+        <ion-item button >Messages</ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-header [translucent]="true" class="background" id="main-content">
+  <ion-toolbar class="background">
+    <div class="container header-inner">
+      <div class="brand">
+        <ion-img src="assets/main-logo-white.png" class="brand-logo" alt="Logo"></ion-img>
+      </div>
+      <nav class="nav">
+        <a class="active-link" tappable>Dashboard</a>
+        <a (click)="gotoAppointments()" tappable>Appointments</a>
+        <a (click)="gotoClients()" tappable>Clients</a>
+        <a (click)="gotoMessages()" tappable>Messages</a>
+      </nav>
+      <ion-buttons slot="end">
+        <ion-button (click)="logout()">
+          <ion-icon name="log-out-outline" size="medium"></ion-icon>
+        </ion-button>
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">dashboard</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+  <ng-container *ngIf="!isLoadingStats; else statsSkeleton">
+    <!-- Manifesto -->
+    <section id="manifesto" class="manifesto container">
+      <div class="grid">
+        <div class="card" data-anim="stagger-card" >
+          <h2><ion-icon name="people-circle-outline" size="large"></ion-icon></h2>
+          <h3>{{clients}}</h3>
+          <p>Clients</p>
+        </div>
+        <div class="card" data-anim="stagger-card" >
+          <h2><ion-icon name="calendar-outline" size="large"></ion-icon></h2>
+          <h3>{{payments}}</h3>
+          <p>Upcoming</p>
+        </div>
+        <div class="card" data-anim="stagger-card" >
+          <h2><ion-icon name="cash-outline" size="large"></ion-icon></h2>
+          <h3>{{revenue}}</h3>
+          <p>Revenue</p>
+        </div>
+      </div>
+    </section>
+  </ng-container>
+
+  <ng-template #statsSkeleton>
+    <!-- Manifesto -->
+    <section id="manifesto" class="manifesto container">
+      <div class="grid">
+        <div class="card-skeleton" data-anim="stagger-card" >
+          <h2>
+            <ion-thumbnail>
+              <ion-skeleton-text animated ></ion-skeleton-text>
+            </ion-thumbnail>
+          </h2>
+          <h3>
+            <ion-skeleton-text animated ></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated ></ion-skeleton-text>
+          </p>
+        </div>
+        <div class="card-skeleton" data-anim="stagger-card" >
+          <h2>
+            <ion-thumbnail slot="start">
+              <ion-skeleton-text animated ></ion-skeleton-text>
+            </ion-thumbnail>
+          </h2>
+          <h3>
+            <ion-skeleton-text animated ></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated ></ion-skeleton-text>
+          </p>
+        </div>
+        <div class="card-skeleton" data-anim="stagger-card" >
+          <h2>
+            <ion-thumbnail slot="start">
+              <ion-skeleton-text animated ></ion-skeleton-text>
+            </ion-thumbnail>
+          </h2>
+          <h3>
+            <ion-skeleton-text animated ></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated ></ion-skeleton-text>
+          </p>
+        </div>
+      </div>
+    </section>
+  </ng-template>
+
+  
+  <!-- Business Hours Card -->
+  <section class="business-hours card-blur container">
+    <h3>Business Hours</h3>
+
+    <div class="business-row">
+      <span>Monday - Friday</span>
+      <span class="hours">9:00 - 18:00</span>
+    </div>
+
+    <div class="business-row">
+      <span>Saturday - Sunday</span>
+      <span class="hours">Closed</span>
+    </div>
+  </section>
+
+  <!-- All dashboard data -->
+  <ng-container *ngIf="!isLoadingApp; else appSkeleton">
+    <section id="testimonials" class="testimonials container">
+      <h2 class="section-title" style="text-align: center;">Today's Appointments</h2>
+      <ion-list [insert]="true" class="schedules" *ngIf="totalAppointments !== 0">
+        <ion-item *ngFor="let a of appointments" [button]="true" detail="false">
+          <div class="unread-indicator-wrapper" slot="start">
+            <div class="unread-indicator"></div>
+          </div>
+          <ion-label>
+            <strong>{{ a.fullName }}</strong>
+            <ion-text>{{ a.email }}</ion-text><br />
+            <ion-note color="medium" class="ion-text-wrap">
+              {{ a.payNote && a.payNote.trim() !== '' ? a.payNote : a.packageName }}
+            </ion-note>
+          </ion-label>
+          <div class="metadata-end-wrapper" slot="end">
+            <ion-note color="medium">at {{ a.appointmentDateTime | date:'shortTime' }}</ion-note>&nbsp;
+            <ion-icon color="medium" name="time-outline"></ion-icon>
+          </div>
+        </ion-item>
+      </ion-list>
+      <p *ngIf="totalAppointments === 0" style="text-align: center; color: red;">You have no appointments scheduled for today.</p>
+    </section>
+  </ng-container>
+
+  <ng-template #appSkeleton>
+    <section id="testimonials" class="testimonials container">
+      <h2 class="section-title" style="text-align: center;">Today's Appointments</h2>
+      <ion-list [insert]="true" class="schedules-skeleton">
+        <ion-item [button]="true" detail="false" lines="none">
+          <div class="unread-indicator-wrapper" slot="start">
+            <div class="unread-indicator">
+              <ion-skeleton-text animated ></ion-skeleton-text>
+            </div>
+          </div>
+          <ion-label>
+            <strong>
+              <ion-skeleton-text animated ></ion-skeleton-text>
+            </strong>
+            <ion-text>
+              <ion-skeleton-text animated ></ion-skeleton-text>
+            </ion-text><br />
+            <ion-note color="medium" class="ion-text-wrap">
+              <ion-skeleton-text animated ></ion-skeleton-text>
+            </ion-note>
+          </ion-label>
+          <div class="metadata-end-wrapper" slot="end">
+            <ion-note color="medium">
+              <ion-skeleton-text animated ></ion-skeleton-text>
+            </ion-note>&nbsp;
+          </div>
+        </ion-item>
+      </ion-list>
+    </section>
+  </ng-template>
+</ion-content> 
